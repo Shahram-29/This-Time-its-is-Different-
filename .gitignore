@@ -1,0 +1,14 @@
+# Raw and processed market data are rebuilt by code/01_data_pipeline.py.
+# Yahoo Finance data is for personal/research use: do not redistribute it in a public repository.
+data/raw/
+data/processed/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Word lock files and large binaries
+~$*.docx
+*.pt
+models/

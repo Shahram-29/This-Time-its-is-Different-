@@ -1,0 +1,24 @@
+^GSPC   S&P 500                                                      first=2002-10-01  rows= 5850  Irish days carried forward=2.6%
+^GDAXI  DAX (euro-area core; Euro Stoxx 50 only on Yahoo from 2007)  first=2002-10-01  rows= 5903  Irish days carried forward=0.9%
+^FTSE   FTSE 100 (robustness only - not a main model input)          first=2002-10-01  rows= 5873  Irish days carried forward=0.9%
+Daily-return correlations 2003-2023: ISEQ-US 0.48, ISEQ-euro 0.69, ISEQ-UK 0.71, euro-UK 0.83
+Main model inputs: ['ret', 'r2', 'us_ret', 'us_r2', 'euro_ret', 'euro_r2']
+Robustness inputs (FTSE replaces DAX): ['ret', 'r2', 'us_ret', 'us_r2', 'uk_ret', 'uk_r2']
+
+Why Garman-Klass is rejected (Yahoo ^ISEQ open is often yesterday's close):
+  2003-2006: stale opens= 8.3%  monthly corr(GK, r^2)=0.54  monthly corr(Parkinson, r^2)=0.67
+  2007-2012: stale opens=37.7%  monthly corr(GK, r^2)=0.97  monthly corr(Parkinson, r^2)=0.99
+  2013-2019: stale opens=75.4%  monthly corr(GK, r^2)=0.96  monthly corr(Parkinson, r^2)=0.98
+  2020-2025: stale opens=10.0%  monthly corr(GK, r^2)=0.99  monthly corr(Parkinson, r^2)=0.99
+
+ISEQ by evaluation window (target = forward 5-day realised variance):
+  calm periods: median annualised vol 13.0%
+  Global Financial Crisis        days= 402  max drawdown=-78.0%  median vol=34.2%  peak vol=121.3%  days above 2x calm vol=68.4%
+  Irish sovereign debt crisis    days= 574  max drawdown=-32.3%  median vol=18.2%  peak vol= 72.2%  days above 2x calm vol=21.4%
+  COVID-19                       days=  92  max drawdown=-39.8%  median vol=35.9%  peak vol=110.5%  days above 2x calm vol=65.2%
+  Brexit referendum              days=  42  max drawdown=-18.2%  median vol=24.9%  peak vol= 97.7%  days above 2x calm vol=47.6%
+  Ukraine war / rate shock       days= 185  max drawdown=-27.5%  median vol=23.3%  peak vol= 66.5%  days above 2x calm vol=36.8%
+
+Training history before the GFC window: 1166 days (4.6 years), all from the calm 2003-07 boom.
+Main sample (Jan 2003 - Aug 2023), complete rows: 5243; zero-return days: 2
+Days after ISEQ composition break (2023-09-01): 592 -> robustness only, not in the main sample.

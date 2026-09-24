@@ -1,0 +1,7 @@
+# Normalise line endings for text; never alter binary documents or images.
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.docx binary
+*.png binary
+*.pdf binary
