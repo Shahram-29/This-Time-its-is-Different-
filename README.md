@@ -41,7 +41,7 @@ Raw and processed data are not committed (Yahoo Finance terms); `01_data_pipelin
 - [x] Descriptive figures (`02`)
 - [x] SHAP tooling smoke test (`03`)
 - [ ] Final pre-registration committed (rewrite the draft in my own words)
-- [ ] Benchmarks: HAR and GARCH walk-forward, QLIKE/MSE by window (`04`)
+- [x] Benchmarks: HAR and GARCH walk-forward, QLIKE/MSE by window (`04`)
 - [ ] LSTM walk-forward, 5 seeds (`05`)
 - [ ] Evaluation: Diebold–Mariano–HLN tests; RQ3 frozen models (`06`)
 - [ ] Explanations: grouped SHAP by window with bootstrap intervals; seed stability (`07`)

@@ -16,4 +16,6 @@ Each design decision, when it was made and why. Cite the evidence in Chapter 3.
 | 24 Sep 2026 | Diebold–Yilmaz and Monte Carlo intervals deferred to PhD | Scope for a 3-month MSc |
 | 24 Sep 2026 | GradientShap with 1,024 samples, explained 8 days at a time; Integrated Gradients as exact cross-check | Smoke test (calm 2017 only): additivity gap fell 0.082 → 0.043 → 0.021 for 64 → 256 → 1,024 samples (corr 0.81 → 0.94 → 0.985); IG additivity error ≈ 0; 1,024 samples on all days at once exceeded memory. Channel shares barely changed with n |
 | 24 Sep 2026 | Squared-return inputs modelled as log(r², floor 1e-8) | Heavy tails; stabilises LSTM training |
+| 25 Sep 2026 | HAR back-transformed with Duan smearing; last 5 training days dropped from HAR estimation; GARCH parameters fixed within each test year | Unbiased level forecasts from a log model; no target overlap into the test year; matches annual refit design. `arch` alignment verified on simulated data (last_obs exclusive; h.1 at origin t uses returns up to t) |
+| 25 Sep 2026 | Naive forecast (last week's RV × 5) reported as reference only | Sanity check; not a pre-registered benchmark |
 | 24 Sep 2026 | COVID hypothesis stated in shares as "towards equality" | Channel shares sum to 100%, so all shares cannot rise together; absolute attributions reported alongside |
