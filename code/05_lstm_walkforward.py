@@ -62,7 +62,7 @@ def main():
         tune = pd.DataFrame(tune)
         summary = tune.groupby(["lookback", "hidden", "layers"])["val_loss"].mean().sort_values()
         tune.to_csv(RES / "lstm_tuning.csv", index=False)
-        L, H, K = summary.index[0]
+        L, H, K = (int(v) for v in summary.index[0])             # numpy ints -> Python ints for PyTorch
         best = Config(lookback=L, hidden=H, layers=K)
         print("Tuning (mean validation loss, standardised log RV; lower is better):")
         print(summary.round(4).to_string())
