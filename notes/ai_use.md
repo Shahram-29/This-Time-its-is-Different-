@@ -10,4 +10,5 @@ Rule: AI may help with planning, code and checking; every sentence of the disser
 | 24 Sep 2026 | Claude (Claude Code) | Set up the project (README, .gitignore, notes); installed PyTorch, Captum, arch, statsmodels; wrote and ran `code/03_shap_smoke_test.py` | Reviewed the smoke-test output; to understand every line before reusing any of it |
 | 25 Sep 2026 | Claude (Claude Code) | Organised the repository (docs folder, README roadmap, requirements, .gitattributes) and made the initial Git commit | Asked for the repository set-up; will create the GitHub repository and sign in myself |
 | 25 Sep 2026 | Claude (Claude Code) | Wrote `code/evaluation.py` and `code/04_benchmarks.py`, verified the `arch` forecast alignment on simulated data, ran the benchmarks | To read and understand both scripts; interpretation of results to be written by me |
+| 25 Sep 2026 | Claude (Claude Code) | Wrote `lstm_common.py`, `05_lstm_walkforward.py`, `06_evaluation.py`, `07_shap.py`; ran them; fixed a type bug and a memory limit | To understand each script; interpretation and all dissertation text written by me |
 | | | | |

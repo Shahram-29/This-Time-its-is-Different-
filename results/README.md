@@ -2,8 +2,17 @@
 
 | File | Produced by | Contents |
 |---|---|---|
-| `benchmark_forecasts.csv` | `code/04_benchmarks.py` | One row per test day (2007 – Aug 2023): realised 5-day variance, HAR, GARCH and naive forecasts, evaluation window |
-| `benchmark_losses.csv` | `code/04_benchmarks.py` | Mean QLIKE and MSE by model, for all test days and each window |
-| `benchmark_parameters.csv` | `code/04_benchmarks.py` | HAR coefficients and R², GARCH ω, α, β, persistence and Student-t degrees of freedom, per annual refit |
+| `benchmark_forecasts.csv` | `04_benchmarks.py` | One row per test day (2007 – Aug 2023): realised 5-day variance, HAR, GARCH and naive forecasts, window |
+| `benchmark_losses.csv` | `04_benchmarks.py` | Mean QLIKE and MSE by model, all test days and each window |
+| `benchmark_parameters.csv` | `04_benchmarks.py` | HAR coefficients and R²; GARCH ω, α, β, persistence, Student-t ν — per annual refit |
+| `lstm_tuning.csv` | `05_lstm_walkforward.py` | Validation loss for every configuration, year and seed in the pre-registered grid |
+| `lstm_training_log.csv` | `05_lstm_walkforward.py` | Epochs, validation loss, smearing factor and run time per refit year and seed |
+| `lstm_forecasts.csv` | `05_lstm_walkforward.py` | LSTM forecast (mean of 5 seeds) and each seed's forecast, per test day |
+| `evaluation_losses.csv` | `06_evaluation.py` | Mean QLIKE and MSE for LSTM, GARCH, HAR, naive, by window |
+| `evaluation_dm_tests.csv` | `06_evaluation.py` | Diebold–Mariano–HLN tests (QLIKE and MSE), LSTM vs each benchmark, all days and per window |
+| `evaluation_frozen.csv` | `06_evaluation.py` | Frozen-at-crisis-start LSTMs vs refitted LSTM and HAR (RQ3) |
+| `shap_*.csv` | `07_shap.py` | Channel shares with intervals, lag profiles, input types, per-seed shares, stability, H2/H4 verdicts |
+| `robust_*.csv`, `robustness_summary.csv` | `08_robustness.py` | Each robustness check and a summary against the main result |
 
-Variances are in decimal units (e.g. 0.0004 = 2% over 5 days). Annualised volatility = √(variance × 252 / 5).
+Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
+QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.

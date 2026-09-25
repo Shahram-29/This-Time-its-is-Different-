@@ -24,7 +24,9 @@ from evaluation import SAMPLE_END, HORIZON
 ROOT = Path(__file__).resolve().parent.parent
 INPUTS = ["ret", "r2", "us_ret", "us_r2", "euro_ret", "euro_r2"]
 LOG_INPUTS = ["r2", "us_r2", "euro_r2"]
-CHANNEL = {"ret": "domestic", "r2": "domestic", "us_ret": "US", "us_r2": "US", "euro_ret": "euro", "euro_r2": "euro"}
+CHANNEL = {"ret": "domestic", "r2": "domestic", "us_ret": "US", "us_r2": "US", "euro_ret": "euro", "euro_r2": "euro",
+           "uk_ret": "UK", "uk_r2": "UK"}                      # UK only in the FTSE robustness run
+FTSE_INPUTS = ["ret", "r2", "us_ret", "us_r2", "uk_ret", "uk_r2"]
 FLOOR = 1e-8
 
 
@@ -40,10 +42,11 @@ class Config:
     patience: int = 15
 
 
-def load_frame(inputs=INPUTS) -> pd.DataFrame:
-    """Model-ready frame: inputs (squared returns in logs) and the log target, main sample only."""
+def load_frame(inputs=INPUTS, end=SAMPLE_END) -> pd.DataFrame:
+    """Model-ready frame: inputs (squared returns in logs) and the log target. Main sample by default;
+    `end` is later only in the post-2023 robustness extension."""
     d = pd.read_csv(ROOT / "data" / "processed" / "dataset.csv", index_col=0, parse_dates=True)
-    d = d.loc[:SAMPLE_END].copy()
+    d = d.loc[:end].copy()
     for c in LOG_INPUTS + [c for c in inputs if c.endswith("_r2") and c not in LOG_INPUTS]:
         if c in d:
             d[c] = np.log(d[c].clip(lower=FLOOR))
