@@ -22,10 +22,13 @@ MSc Business Analytics dissertation · Dublin Business School · 2026 · *work i
 | Hypothesis | Verdict | Evidence |
 |---|---|---|
 | **H1** LSTM more accurate (QLIKE) than GARCH and HAR | ❌ **Not supported** | LSTM 0.463 vs GARCH 0.380 and HAR 0.414; the LSTM is significantly *worse* (DM-HLN p = 0.003 and 0.044) |
-| **H2a–c, H2e** SHAP fingerprints follow crisis origin | ⏳ running | step 07 |
+| **H2a** GFC: US share rises most; domestic above calm | ❌ **Not supported** (partly) | US share rises most (0.266 → 0.299, interval above calm) but the domestic share falls (0.523 → 0.482) |
+| **H2b** Irish crisis: euro and domestic rise; US below GFC | ❌ **Not supported** (partly) | Euro rises (0.211 → 0.236) and US is below its GFC level (0.252 < 0.299), but domestic does not rise (0.512) |
+| **H2c** COVID-19: shares move towards equality | ✅ **Supported, narrowly** | Max–min spread 0.308 vs 0.312 in calm periods — a very small difference |
+| **H2e** 2022 shock: euro share rises | ❌ **Not supported** | Euro share *falls* (0.211 → 0.143); the US share rises (0.317) |
 | **H3** Degradation of frozen models: GFC > COVID > Irish crisis | ❌ **Not supported as ranked** | Observed GFC (4.26) > Irish (1.33) > COVID (0.74); the GFC is the largest, as predicted |
-| **H4** SHAP channel rankings stable across seeds | ⏳ running | step 07 |
-| **H2d** Brexit → UK channel (FTSE robustness run) | ⏳ queued | step 08 |
+| **H4** SHAP channel rankings stable across seeds (Spearman ≥ 0.8) | ❌ **Not supported** | 1.0 in calm and 2022, 0.8 in COVID, 0.7 in the GFC and the Irish crisis |
+| **H2d** Brexit → UK channel (FTSE robustness run) | ⏳ running | step 08 |
 
 Negative results are reported in full, as pre-registered. Interpretation belongs in the dissertation.
 
@@ -78,12 +81,69 @@ and the Irish crisis beat HAR in COVID-19, a crisis unlike anything in its train
 ![Frozen vs refitted models](figures/evaluation_frozen.png)
 
 ## 3. Transmission fingerprints (RQ2, RQ4) — SHAP
-*Running (step 07).* Tooling check on calm 2017 days only (run before any crisis window was explained):
-![SHAP smoke test — tooling check only, not a result](figures/smoke_test_shap.png)
+Captum GradientShap on the model that made each forecast, for all 5 seeds: every day in each crisis window plus
+every 10th calm day (1,547 days × 5 seeds; 1,024 samples; attributions add up to the forecast within 0.02 on
+average). **Share of total |attribution|** by channel, with 95% block-bootstrap intervals:
+
+| Window | Domestic (ISEQ) | US (S&P 500) | Euro (DAX) |
+|---|---|---|---|
+| Calm | 0.523 [0.502, 0.541] | 0.266 [0.256, 0.279] | 0.211 [0.195, 0.226] |
+| Global Financial Crisis | 0.482 [0.448, 0.509] | **0.299** [0.282, 0.321] | 0.219 [0.203, 0.238] |
+| Irish sovereign debt crisis | 0.512 [0.493, 0.532] | 0.252 [0.239, 0.266] | **0.236** [0.220, 0.253] |
+| COVID-19 | 0.488 [0.468, 0.508] | **0.332** [0.313, 0.355] | 0.180 [0.161, 0.196] |
+| War / energy shock 2022 | 0.540 [0.521, 0.560] | **0.317** [0.293, 0.341] | 0.143 [0.134, 0.154] |
+
+Bold = interval lies above the calm-period share.
+
+![SHAP channel shares by window](figures/shap_channel_shares.png)
+
+**How far back the model looks.** In the fast crises (GFC, COVID-19, 2022) attribution concentrates on the last
+1–5 days; in the slow-burning Irish sovereign debt crisis the profile is the same as in calm periods.
+![Lag profiles](figures/shap_lag_profiles.png)
+
+**Direction vs size of moves** (share of |attribution| on returns vs squared returns):
+
+| Window | Size (squared returns) | Direction (returns) |
+|---|---:|---:|
+| Calm | 0.590 | 0.410 |
+| Global Financial Crisis | 0.380 | **0.620** |
+| Irish sovereign debt crisis | 0.655 | 0.345 |
+| COVID-19 | 0.510 | 0.490 |
+| War / energy shock 2022 | 0.561 | 0.439 |
+
+**Stability across the 5 seeds (RQ4)** — mean pairwise Spearman correlation of channel shares (3 channels) and
+of input shares (6 inputs):
+
+| Window | Channels (mean) | Channels (min) | 6 inputs (mean) |
+|---|---:|---:|---:|
+| Calm | 1.0 | 1.0 | 0.81 |
+| Global Financial Crisis | 0.7 | 0.5 | 0.62 |
+| Irish sovereign debt crisis | 0.7 | 0.5 | 0.83 |
+| COVID-19 | 0.8 | 0.5 | 0.82 |
+| War / energy shock 2022 | 1.0 | 1.0 | 0.87 |
+
+Full tables: [`results/shap_channel_shares.csv`](results/shap_channel_shares.csv),
+[`shap_lags.csv`](results/shap_lags.csv), [`shap_input_types.csv`](results/shap_input_types.csv),
+[`shap_stability.csv`](results/shap_stability.csv), [`shap_by_seed.csv`](results/shap_by_seed.csv).
 
 ## 4. Robustness checks
-*Queued (step 08):* FTSE 100 instead of DAX (with the Brexit test, H2d) · 66-day look-back · Parkinson range
-volatility as the evaluation proxy · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
+**Parkinson range volatility as the evaluation proxy** (scaled to close-to-close variance using 2003–2006 only;
+scale factor 1.001). Mean QLIKE:
+
+| Window | LSTM | GARCH | HAR |
+|---|---:|---:|---:|
+| **All test days** | 0.295 | **0.237** | 0.270 |
+| Calm | 0.224 | **0.208** | 0.229 |
+| Global Financial Crisis | 0.638 | **0.256** | 0.416 |
+| Irish sovereign debt crisis | 0.276 | **0.232** | 0.255 |
+| COVID-19 | **0.315** | 0.509 | 0.525 |
+| War / energy shock 2022 | 0.250 | **0.161** | 0.163 |
+
+LSTM vs GARCH: DM-HLN statistic 3.26, p = 0.001 (LSTM worse); LSTM vs HAR: 1.50, p = 0.13 (no significant
+difference). GARCH remains the most accurate model overall; the LSTM remains the best in COVID-19.
+
+*Running (step 08):* FTSE 100 instead of DAX (with the Brexit test, H2d) · 66-day look-back · extension to
+Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
 ## 5. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
@@ -135,7 +195,7 @@ py -3.13 03_shap_smoke_test.py    # tooling check on calm 2017 days only
 py -3.13 04_benchmarks.py         # HAR and GARCH walk-forward (~10 s)
 py -3.13 05_lstm_walkforward.py   # tuning + 85 LSTM models (~15 min on 12 CPU threads)
 py -3.13 06_evaluation.py         # H1 tests and frozen-model test (~3 min)
-py -3.13 07_shap.py               # SHAP fingerprints, H2/H4 (~20 min; needs ~2 GB RAM)
+py -3.13 07_shap.py               # SHAP fingerprints, H2/H4 (~21 min; ~2 GB RAM)
 py -3.13 08_robustness.py all     # robustness checks (~1 hour)
 py -3.13 09_report_figures.py     # report figures from saved results
 ```
@@ -160,8 +220,8 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Benchmarks: HAR and GARCH walk-forward (`04`)
 - [x] LSTM walk-forward, 5 seeds (`05`)
 - [x] Evaluation: Diebold–Mariano–HLN tests; frozen-model "learning from history" test (`06`)
-- [ ] Explanations: grouped SHAP by window with bootstrap intervals; seed stability (`07`) — running
-- [ ] Robustness: FTSE for DAX (incl. Brexit), look-back 66, Parkinson, post-2023 (`08`) — queued
+- [x] Explanations: grouped SHAP by window with bootstrap intervals; seed stability (`07`)
+- [ ] Robustness: Parkinson ✅ · FTSE for DAX (incl. Brexit) · look-back 66 · post-2023 (`08`) — running
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 
