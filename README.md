@@ -18,6 +18,11 @@ MSc Business Analytics dissertation · Dublin Business School · 2026 · *work i
 | **Crises compared** | Global Financial Crisis (US origin) · Irish sovereign debt crisis (euro / domestic) · COVID-19 (global, exogenous) · validation: 2022 war/energy shock, Brexit. |
 | **Hypotheses** | Fixed before any model was run: [`PREREGISTRATION.md`](PREREGISTRATION.md). The git history shows each script committed before its results. |
 
+![Project pipeline](figures/project_pipeline.png)
+
+New to the project? Read the **[Project Handbook](docs/Project_Handbook.docx)** — every term, method, script,
+graph and result explained in plain language.
+
 ## Pre-registered hypotheses — status
 | Hypothesis | Verdict | Evidence |
 |---|---|---|
@@ -142,8 +147,8 @@ scale factor 1.001). Mean QLIKE:
 LSTM vs GARCH: DM-HLN statistic 3.26, p = 0.001 (LSTM worse); LSTM vs HAR: 1.50, p = 0.13 (no significant
 difference). GARCH remains the most accurate model overall; the LSTM remains the best in COVID-19.
 
-*Running (step 08):* FTSE 100 instead of DAX (with the Brexit test, H2d) · 66-day look-back · extension to
-Sep 2023 – Dec 2025 (after the ISEQ composition break).
+*Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
+Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
 ## 5. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
@@ -208,7 +213,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 | [`results/`](results/) | forecast, loss, test and parameter tables ([index](results/README.md)) |
 | [`figures/`](figures/) | all charts shown above |
 | [`data/data_quality_report.txt`](data/data_quality_report.txt) | data checks behind each design decision |
-| [`docs/`](docs/) | research plan, Chapter 2 blueprint, literature handbook (planning documents, not dissertation text) |
+| [`docs/`](docs/) | project handbook, research plan, Chapter 2 blueprint, literature handbook (study and planning documents, not dissertation text) |
 | [`notes/decisions.md`](notes/decisions.md) | dated design decisions with evidence |
 | [`notes/ai_use.md`](notes/ai_use.md) | AI-assistance log |
 | [`PREREGISTRATION.md`](PREREGISTRATION.md) | hypotheses and design |
@@ -221,7 +226,8 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] LSTM walk-forward, 5 seeds (`05`)
 - [x] Evaluation: Diebold–Mariano–HLN tests; frozen-model "learning from history" test (`06`)
 - [x] Explanations: grouped SHAP by window with bootstrap intervals; seed stability (`07`)
-- [ ] Robustness: Parkinson ✅ · FTSE for DAX (incl. Brexit) · look-back 66 · post-2023 (`08`) — running
+- [ ] Robustness: Parkinson ✅ · FTSE for DAX (incl. Brexit) · look-back 66 · post-2023 (`08`) — to run
+- [x] Project handbook (`docs/Project_Handbook.docx`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 
