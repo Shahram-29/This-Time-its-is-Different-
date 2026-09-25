@@ -37,7 +37,8 @@ from lstm_common import CHANNEL, INPUTS, load_frame, load_bundle, windows, split
 ROOT = Path(__file__).resolve().parent.parent
 RES, FIG, MODELS = ROOT / "results", ROOT / "figures", ROOT / "models" / "lstm"
 SEEDS = [1, 2, 3, 4, 5]
-N_SAMPLES, CHUNK, N_BACKGROUND = 1024, 8, 200
+N_SAMPLES, CHUNK, N_BACKGROUND = 1024, 4, 200
+WORKERS, THREADS = 2, 3      # 7.7 GB RAM: 6 workers x 8-day chunks ran out of memory; ~0.14 s per day here
 CHANNELS = ["domestic", "US", "euro"]
 WINDOW_ORDER = ["calm", "Global Financial Crisis", "Irish sovereign debt crisis", "COVID-19", "War / energy shock 2022"]
 CH_IDX = {c: [i for i, k in enumerate(INPUTS) if CHANNEL[k] == c] for c in CHANNELS}
@@ -46,7 +47,7 @@ SIZE_IDX = [i for i, k in enumerate(INPUTS) if k.endswith("r2")]
 
 def _init():
     import torch
-    torch.set_num_threads(2)
+    torch.set_num_threads(THREADS)
 
 
 def _explain(args):
@@ -96,7 +97,7 @@ def main():
     calm = fc.index[fc["window"] == "calm"][::10]
     pick = fc.index[fc["window"].isin(WINDOW_ORDER[1:])].union(calm)
     jobs = [(y, s, list(g)) for (y, g), s in itertools.product(pd.Series(pick, index=pick).groupby(pick.year), SEEDS)]
-    with ProcessPoolExecutor(max_workers=6, initializer=_init) as pool:
+    with ProcessPoolExecutor(max_workers=WORKERS, initializer=_init) as pool:
         out = list(pool.map(_explain, jobs))
     print(f"Explained {len(pick)} days x {len(SEEDS)} seeds in {time.time() - t0:.0f} s")
 
