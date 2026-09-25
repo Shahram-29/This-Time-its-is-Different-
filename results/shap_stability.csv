@@ -1,0 +1,6 @@
+window,mean_spearman_channels,min_spearman_channels,mean_spearman_6_inputs
+calm,1.0,1.0,0.8114285714285716
+Global Financial Crisis,0.7,0.5,0.6171428571428573
+Irish sovereign debt crisis,0.7,0.5,0.8342857142857143
+COVID-19,0.8,0.5,0.822857142857143
+War / energy shock 2022,1.0,1.0,0.8742857142857146

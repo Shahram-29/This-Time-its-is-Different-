@@ -1,0 +1,6 @@
+hypothesis,supported
+H2a GFC: US share rises most; domestic above calm,False
+H2b Irish debt crisis: euro and domestic rise; US below its GFC level,False
+H2c COVID: shares move towards equality (smaller max-min spread than calm),True
+H2e 2022 shock: euro share rises,False
+H4 stability: mean pairwise Spearman >= 0.8 in every window,False
