@@ -21,6 +21,7 @@ Outputs: results/shap_*.csv, figures/shap_*.png
 """
 
 import itertools
+import os
 import time
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
@@ -32,17 +33,26 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
-from lstm_common import CHANNEL, INPUTS, load_frame, load_bundle, windows, split_positions
+from lstm_common import CHANNEL, INPUTS, FTSE_INPUTS, load_frame, load_bundle, windows, split_positions
 
 ROOT = Path(__file__).resolve().parent.parent
-RES, FIG, MODELS = ROOT / "results", ROOT / "figures", ROOT / "models" / "lstm"
+RES, FIG = ROOT / "results", ROOT / "figures"
 SEEDS = [1, 2, 3, 4, 5]
 N_SAMPLES, CHUNK, N_BACKGROUND = 1024, 4, 200
 WORKERS, THREADS = 2, 3      # 7.7 GB RAM: 6 workers x 8-day chunks ran out of memory; ~0.14 s per day here
-CHANNELS = ["domestic", "US", "euro"]
+
+# Main run by default; DISS_VARIANT=ftse explains the FTSE-for-DAX robustness models (incl. Brexit, H2d).
+VARIANT = os.environ.get("DISS_VARIANT", "main")
 WINDOW_ORDER = ["calm", "Global Financial Crisis", "Irish sovereign debt crisis", "COVID-19", "War / energy shock 2022"]
-CH_IDX = {c: [i for i, k in enumerate(INPUTS) if CHANNEL[k] == c] for c in CHANNELS}
-SIZE_IDX = [i for i, k in enumerate(INPUTS) if k.endswith("r2")]
+if VARIANT == "ftse":
+    MODELS, FORECASTS, PREFIX = ROOT / "models" / "lstm_ftse", RES / "robust_ftse_forecasts.csv", "shap_ftse_"
+    MODEL_INPUTS, CHANNELS = FTSE_INPUTS, ["domestic", "US", "UK"]
+    WINDOW_ORDER = WINDOW_ORDER + ["Brexit referendum"]
+else:
+    MODELS, FORECASTS, PREFIX = ROOT / "models" / "lstm", RES / "lstm_forecasts.csv", "shap_"
+    MODEL_INPUTS, CHANNELS = INPUTS, ["domestic", "US", "euro"]
+CH_IDX = {c: [i for i, k in enumerate(MODEL_INPUTS) if CHANNEL[k] == c] for c in CHANNELS}
+SIZE_IDX = [i for i, k in enumerate(MODEL_INPUTS) if k.endswith("r2")]
 
 
 def _init():
@@ -55,8 +65,8 @@ def _explain(args):
     import torch
     from captum.attr import GradientShap
     year, seed, dates = args
-    d = load_frame()
     b = load_bundle(MODELS / f"{year}_seed{seed}.pt")
+    d = load_frame(b["inputs"])
     cfg = b["cfg"]
     X = ((d[b["inputs"]] - b["mu"]) / b["sd"]).to_numpy(np.float32)
     fit_pos, _ = split_positions(d, b["train_end"], cfg.lookback)
@@ -93,12 +103,17 @@ def block_bootstrap(per_day, n_boot=1000, block=10, seed=0):
 
 def main():
     t0 = time.time()
-    fc = pd.read_csv(RES / "lstm_forecasts.csv", index_col=0, parse_dates=True)
+    fc = pd.read_csv(FORECASTS, index_col=0, parse_dates=True)
     calm = fc.index[fc["window"] == "calm"][::10]
     pick = fc.index[fc["window"].isin(WINDOW_ORDER[1:])].union(calm)
     jobs = [(y, s, list(g)) for (y, g), s in itertools.product(pd.Series(pick, index=pick).groupby(pick.year), SEEDS)]
+    print(f"[{VARIANT}] explaining {len(pick)} days x {len(SEEDS)} seeds = {len(jobs)} model-year jobs", flush=True)
+    out = []
     with ProcessPoolExecutor(max_workers=WORKERS, initializer=_init) as pool:
-        out = list(pool.map(_explain, jobs))
+        for i, r in enumerate(pool.map(_explain, jobs), 1):
+            out.append(r)
+            print(f"  {i}/{len(jobs)} done (year {r[0]}, seed {r[1]}, {len(r[2])} days) "
+                  f"after {time.time() - t0:.0f} s", flush=True)
     print(f"Explained {len(pick)} days x {len(SEEDS)} seeds in {time.time() - t0:.0f} s")
 
     # assemble: attr[seed] = DataFrame of (day -> 22x6 array)
@@ -139,13 +154,13 @@ def main():
                           "min_spearman_channels": np.nanmin(rho), "mean_spearman_6_inputs": np.mean(rho6)})
 
     ch = pd.DataFrame(rows)
-    ch.to_csv(RES / "shap_channel_shares.csv", index=False)
-    pd.DataFrame(type_rows).to_csv(RES / "shap_input_types.csv", index=False)
+    ch.to_csv(RES / f"{PREFIX}channel_shares.csv", index=False)
+    pd.DataFrame(type_rows).to_csv(RES / f"{PREFIX}input_types.csv", index=False)
     lags = pd.DataFrame(lag_rows).set_index("window")
-    lags.to_csv(RES / "shap_lags.csv")
-    pd.DataFrame(seed_rows).to_csv(RES / "shap_by_seed.csv", index=False)
+    lags.to_csv(RES / f"{PREFIX}lags.csv")
+    pd.DataFrame(seed_rows).to_csv(RES / f"{PREFIX}by_seed.csv", index=False)
     stab = pd.DataFrame(stab_rows).set_index("window")
-    stab.to_csv(RES / "shap_stability.csv")
+    stab.to_csv(RES / f"{PREFIX}stability.csv")
 
     pd.set_option("display.width", 220)
     tab = ch.pivot(index="window", columns="channel", values="share").reindex(WINDOW_ORDER)[CHANNELS]
@@ -161,7 +176,12 @@ def main():
     change = lambda w: {c: get(w, c) - get("calm", c) for c in CHANNELS}
     gfc = change("Global Financial Crisis")
     spread = lambda w: max(get(w, c) for c in CHANNELS) - min(get(w, c) for c in CHANNELS)
-    verdicts = [
+    h4 = ("H4 stability: mean pairwise Spearman >= 0.8 in every window",
+          bool((stab["mean_spearman_channels"] >= 0.8).all()))
+    if VARIANT == "ftse":
+        verdicts = [("H2d Brexit (FTSE run): UK share rises", rises("Brexit referendum", "UK")), h4]
+    else:
+        verdicts = [
         ("H2a GFC: US share rises most; domestic above calm",
          max(gfc, key=gfc.get) == "US" and rises("Global Financial Crisis", "US")
          and rises("Global Financial Crisis", "domestic")),
@@ -171,15 +191,13 @@ def main():
         ("H2c COVID: shares move towards equality (smaller max-min spread than calm)",
          spread("COVID-19") < spread("calm")),
         ("H2e 2022 shock: euro share rises", rises("War / energy shock 2022", "euro")),
-        ("H4 stability: mean pairwise Spearman >= 0.8 in every window",
-         bool((stab["mean_spearman_channels"] >= 0.8).all())),
-    ]
+        h4]
     vt = pd.DataFrame(verdicts, columns=["hypothesis", "supported"])
-    vt.to_csv(RES / "shap_hypotheses.csv", index=False)
+    vt.to_csv(RES / f"{PREFIX}hypotheses.csv", index=False)
     print("\nPre-registered verdicts:\n" + vt.to_string(index=False))
 
     # ---- figures -------------------------------------------------------------------------------------
-    colours = {"domestic": "#1b1b1b", "US": "#1f77b4", "euro": "#2ca02c"}
+    colours = {"domestic": "#1b1b1b", "US": "#1f77b4", "euro": "#2ca02c", "UK": "#d62728"}
     fig, ax = plt.subplots(figsize=(12, 4.3))
     x = np.arange(len(WINDOW_ORDER))
     for i, c in enumerate(CHANNELS):
@@ -194,11 +212,11 @@ def main():
     ax.set_title("Transmission fingerprints: which market drives the LSTM's Irish volatility forecast "
                  "(95% block-bootstrap intervals)", loc="left", fontsize=10)
     fig.tight_layout()
-    fig.savefig(FIG / "shap_channel_shares.png", dpi=150)
+    fig.savefig(FIG / f"{PREFIX}channel_shares.png", dpi=150)
     plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(10, 3.8))
-    for w, c in zip(WINDOW_ORDER, ["#9e9e9e", "#1f77b4", "#2ca02c", "#9467bd", "#d62728"]):
+    for w, c in zip(WINDOW_ORDER, ["#9e9e9e", "#1f77b4", "#2ca02c", "#9467bd", "#d62728", "#ff7f0e"]):
         ax.plot(range(22), lags.loc[w].values, marker="o", ms=3, color=c, label=w)
     ax.set_xticks(range(0, 22, 3))
     ax.set_xticklabels([f"t-{k}" for k in range(0, 22, 3)])
@@ -207,8 +225,8 @@ def main():
     ax.legend(frameon=False, fontsize=8)
     ax.set_title("How far back the model looks, by window", loc="left")
     fig.tight_layout()
-    fig.savefig(FIG / "shap_lag_profiles.png", dpi=150)
-    print(f"\nSaved results/shap_*.csv and figures/shap_*.png  [{time.time() - t0:.0f} s]")
+    fig.savefig(FIG / f"{PREFIX}lag_profiles.png", dpi=150)
+    print(f"\nSaved results/{PREFIX}*.csv and figures/{PREFIX}*.png  [{time.time() - t0:.0f} s]")
 
 
 if __name__ == "__main__":

@@ -52,8 +52,13 @@ def walk_forward(cfg, inputs, tag, years=TEST_YEARS, end=SAMPLE_END):
     mdir = ROOT / "models" / f"lstm_{tag}"
     mdir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
+    jobs = [(cfg, inputs, y, s, end) for y in years for s in SEEDS]
+    fits = []
     with ProcessPoolExecutor(max_workers=WORKERS, initializer=_init) as pool:
-        fits = list(pool.map(_fit, [(cfg, inputs, y, s, end) for y in years for s in SEEDS]))
+        for i, r in enumerate(pool.map(_fit, jobs), 1):
+            fits.append(r)
+            print(f"  [{tag}] {i}/{len(jobs)} models trained (year {r[0]}, seed {r[1]}) "
+                  f"after {time.time() - t0:.0f} s", flush=True)
     per_seed = {s: [] for s in SEEDS}
     for year, seed, b in fits:
         last = min(pd.Timestamp(f"{year}-12-31"), pd.Timestamp(end))
