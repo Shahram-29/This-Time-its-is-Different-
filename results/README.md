@@ -13,6 +13,11 @@
 | `evaluation_frozen.csv` | `06_evaluation.py` | Frozen-at-crisis-start LSTMs vs refitted LSTM and HAR (RQ3) |
 | `shap_*.csv` | `07_shap.py` | Channel shares with intervals, lag profiles, input types, per-seed shares, stability, H2/H4 verdicts |
 | `robust_*.csv`, `robustness_summary.csv` | `08_robustness.py` | Each robustness check and a summary against the main result |
+| `connectedness_full_sample.csv` | `11_connectedness.py` | Exploratory E1: full-sample Diebold–Yilmaz table (%), rows receive, columns give; to/from/net and total index |
+| `connectedness_rolling.csv` | `11_connectedness.py` | ISEQ row (own, from US, from euro) and total spillover index, 200-day rolling, per day |
+| `connectedness_vs_shap.csv`, `connectedness_agreement.csv` | `11_connectedness.py` | SHAP vs Diebold–Yilmaz shares by window and channel, changes from calm, agreement counts, all four specifications |
+| `volatility_paradox_annual.csv` | `12_volatility_paradox.py` | Exploratory E2: annual volatility, one-sided HP trend, below/above-trend parts, 5-year below-trend mean (Ireland, US, Germany) |
+| `volatility_paradox_crises.csv`, `volatility_paradox_crosscheck.csv` | `12_volatility_paradox.py` | Pre-crisis measure and percentile per market and window; FRED vs Yahoo volatility check |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.

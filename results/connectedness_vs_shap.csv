@@ -1,0 +1,61 @@
+spec,window,channel,shap_share,dy_share,shap_change,dy_change,total_spillover
+main,calm,domestic,0.5228,0.6551,0.0,0.0,32.5943
+main,calm,US,0.2665,0.1241,0.0,0.0,32.5943
+main,calm,euro,0.2107,0.2208,0.0,0.0,32.5943
+main,Global Financial Crisis,domestic,0.482,0.6718,-0.0408,0.0167,32.5119
+main,Global Financial Crisis,US,0.2991,0.1994,0.0326,0.0752,32.5119
+main,Global Financial Crisis,euro,0.2189,0.1289,0.0082,-0.0919,32.5119
+main,Irish sovereign debt crisis,domestic,0.512,0.5512,-0.0108,-0.1039,42.6816
+main,Irish sovereign debt crisis,US,0.2519,0.2059,-0.0146,0.0818,42.6816
+main,Irish sovereign debt crisis,euro,0.2361,0.2429,0.0254,0.0221,42.6816
+main,COVID-19,domestic,0.4884,0.4267,-0.0344,-0.2284,49.4632
+main,COVID-19,US,0.3317,0.3544,0.0653,0.2303,49.4632
+main,COVID-19,euro,0.1799,0.2189,-0.0308,-0.0019,49.4632
+main,War / energy shock 2022,domestic,0.5401,0.5123,0.0173,-0.1428,42.6669
+main,War / energy shock 2022,US,0.3174,0.1071,0.0509,-0.017,42.6669
+main,War / energy shock 2022,euro,0.1425,0.3806,-0.0682,0.1598,42.6669
+daily r2,calm,domestic,0.5228,0.8343,0.0,0.0,16.4825
+daily r2,calm,US,0.2665,0.0481,0.0,0.0,16.4825
+daily r2,calm,euro,0.2107,0.1176,0.0,0.0,16.4825
+daily r2,Global Financial Crisis,domestic,0.482,0.8483,-0.0408,0.0139,14.0881
+daily r2,Global Financial Crisis,US,0.2991,0.0611,0.0326,0.0131,14.0881
+daily r2,Global Financial Crisis,euro,0.2189,0.0906,0.0082,-0.027,14.0881
+daily r2,Irish sovereign debt crisis,domestic,0.512,0.7821,-0.0108,-0.0522,24.5223
+daily r2,Irish sovereign debt crisis,US,0.2519,0.0695,-0.0146,0.0214,24.5223
+daily r2,Irish sovereign debt crisis,euro,0.2361,0.1484,0.0254,0.0308,24.5223
+daily r2,COVID-19,domestic,0.4884,0.7198,-0.0344,-0.1145,27.1778
+daily r2,COVID-19,US,0.3317,0.101,0.0653,0.053,27.1778
+daily r2,COVID-19,euro,0.1799,0.1792,-0.0308,0.0616,27.1778
+daily r2,War / energy shock 2022,domestic,0.5401,0.7615,0.0173,-0.0728,20.8503
+daily r2,War / energy shock 2022,US,0.3174,0.0525,0.0509,0.0044,20.8503
+daily r2,War / energy shock 2022,euro,0.1425,0.186,-0.0682,0.0684,20.8503
+100-day window,calm,domestic,0.5228,0.6528,0.0,0.0,33.3537
+100-day window,calm,US,0.2665,0.1268,0.0,0.0,33.3537
+100-day window,calm,euro,0.2107,0.2204,0.0,0.0,33.3537
+100-day window,Global Financial Crisis,domestic,0.482,0.6836,-0.0408,0.0308,34.3277
+100-day window,Global Financial Crisis,US,0.2991,0.1726,0.0326,0.0458,34.3277
+100-day window,Global Financial Crisis,euro,0.2189,0.1438,0.0082,-0.0766,34.3277
+100-day window,Irish sovereign debt crisis,domestic,0.512,0.561,-0.0108,-0.0918,43.1239
+100-day window,Irish sovereign debt crisis,US,0.2519,0.1864,-0.0146,0.0596,43.1239
+100-day window,Irish sovereign debt crisis,euro,0.2361,0.2526,0.0254,0.0322,43.1239
+100-day window,COVID-19,domestic,0.4884,0.3722,-0.0344,-0.2806,55.2177
+100-day window,COVID-19,US,0.3317,0.3866,0.0653,0.2598,55.2177
+100-day window,COVID-19,euro,0.1799,0.2413,-0.0308,0.0209,55.2177
+100-day window,War / energy shock 2022,domestic,0.5401,0.5584,0.0173,-0.0944,35.953
+100-day window,War / energy shock 2022,US,0.3174,0.096,0.0509,-0.0308,35.953
+100-day window,War / energy shock 2022,euro,0.1425,0.3456,-0.0682,0.1252,35.953
+300-day window,calm,domestic,0.5228,0.6427,0.0,0.0,33.3262
+300-day window,calm,US,0.2665,0.13,0.0,0.0,33.3262
+300-day window,calm,euro,0.2107,0.2273,0.0,0.0,33.3262
+300-day window,Global Financial Crisis,domestic,0.482,0.6388,-0.0408,-0.0039,33.3775
+300-day window,Global Financial Crisis,US,0.2991,0.2259,0.0326,0.0959,33.3775
+300-day window,Global Financial Crisis,euro,0.2189,0.1353,0.0082,-0.0919,33.3775
+300-day window,Irish sovereign debt crisis,domestic,0.512,0.5677,-0.0108,-0.075,41.4097
+300-day window,Irish sovereign debt crisis,US,0.2519,0.2023,-0.0146,0.0722,41.4097
+300-day window,Irish sovereign debt crisis,euro,0.2361,0.2301,0.0254,0.0028,41.4097
+300-day window,COVID-19,domestic,0.4884,0.473,-0.0344,-0.1697,47.9577
+300-day window,COVID-19,US,0.3317,0.3076,0.0653,0.1775,47.9577
+300-day window,COVID-19,euro,0.1799,0.2194,-0.0308,-0.0078,47.9577
+300-day window,War / energy shock 2022,domestic,0.5401,0.5144,0.0173,-0.1283,44.8551
+300-day window,War / energy shock 2022,US,0.3174,0.1225,0.0509,-0.0075,44.8551
+300-day window,War / energy shock 2022,euro,0.1425,0.3631,-0.0682,0.1358,44.8551

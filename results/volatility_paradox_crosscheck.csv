@@ -1,0 +1,4 @@
+market,years,corr_fred_vs_yahoo,mean_fred,mean_yahoo
+Ireland,2004-2023,0.9016,0.1445,0.2017
+United States,2004-2023,0.9109,0.1042,0.1708
+Germany,2004-2023,0.8861,0.135,0.1979

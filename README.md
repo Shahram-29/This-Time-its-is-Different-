@@ -150,7 +150,57 @@ difference). GARCH remains the most accurate model overall; the LSTM remains the
 *Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
 Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
-## 5. Model details
+## 5. Exploratory extensions (Amendment A1)
+*Chosen after the main results were known. The specification was committed before either analysis was run
+(commit 9c89f79, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
+any hypothesis.*
+
+**E1: econometric spillovers vs SHAP** (Diebold & Yilmaz, 2012). Method: VAR(4) on log 5-day realised variance
+of ISEQ, S&P 500 and DAX, fitted on 200-day rolling windows, with a generalized forecast-error variance
+decomposition at a 10-day horizon. The ISEQ row is averaged over the same days that were explained with SHAP.
+
+| Window | SHAP share: domestic / US / euro | Diebold–Yilmaz share: own / from US / from euro |
+|---|---|---|
+| Calm | 0.523 / 0.266 / 0.211 | 0.655 / 0.124 / 0.221 |
+| Global Financial Crisis | 0.482 / 0.299 / 0.219 | 0.672 / 0.199 / 0.129 |
+| Irish sovereign debt crisis | 0.512 / 0.252 / 0.236 | 0.551 / 0.206 / 0.243 |
+| COVID-19 | 0.488 / 0.332 / 0.180 | 0.427 / 0.354 / 0.219 |
+| War / energy shock 2022 | 0.540 / 0.317 / 0.143 | 0.512 / 0.107 / 0.381 |
+
+- **Agreement between the two measures:** weak.
+  - The change from calm has the same sign in **4 of 8** window × foreign-channel cases.
+  - The US-vs-euro ranking matches in **2 of 5** windows.
+  - All sensitivity runs give the same picture (sign 3–4 of 8; ranking 0–2 of 5).
+- **Where they agree:** both show the US share rising in the GFC and rising most in COVID-19.
+- **Where they differ most:** 2022. The spillover measure's euro share rises to 0.381 (the direction pre-registered in H2e), while the SHAP euro share falls.
+- **Full sample:**
+  - The total spillover index is 34.0%.
+  - The ISEQ is a net receiver (−8.4); the US is a net transmitter (+7.7).
+
+![Spillovers over time](figures/connectedness_rolling.png)
+![SHAP vs Diebold-Yilmaz](figures/connectedness_vs_shap.png)
+
+**E2: volatility paradox** (Danielsson, Valenzuela & Zer, 2018). Data: OECD monthly share prices from FRED;
+Ireland (= ISEQ) from 1955. The measure is the mean below-trend volatility over the five July–June years before
+each window (one-sided HP trend, λ = 5,000). The percentile in brackets is within the same market's own history;
+the bottom 20% counts as "unusually calm".
+
+| Market | GFC (2003–07) | Irish debt crisis (2005–09) | COVID-19 (2015–19) |
+|---|---|---|---|
+| Ireland | −0.032 (40th) | −0.019 (62nd) | −0.020 (60th) |
+| United States | −0.022 (42nd) | −0.017 (60th) | −0.020 (49th) |
+| Germany | **−0.049 (4th)** | **−0.036 (16th)** | −0.027 (40th) |
+
+- **Before the GFC:**
+  - Only Germany meets the "unusually calm" rule.
+  - Ireland was below its trend in four of the five years (2004–07), but those dips were not unusual by its own 1970–2024 history.
+  - So the stated expectation for Ireland and the US is not met.
+- **Before COVID-19:** no market was unusually calm, as expected.
+- **Cross-check:** FRED and Yahoo annual volatility correlate 0.89–0.91 (2004–23). FRED levels are lower because monthly averaging smooths returns.
+
+![Volatility paradox](figures/volatility_paradox.png)
+
+## 6. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
 configurations score above 1.0 (worse than predicting the training mean) because the validation years differ from
 the calm 2003–05 training data — the same problem RQ3 measures.
@@ -171,7 +221,7 @@ the calm 2003–05 training data — the same problem RQ3 measures.
 training data. Per-year details: [`results/benchmark_parameters.csv`](results/benchmark_parameters.csv),
 [`results/lstm_training_log.csv`](results/lstm_training_log.csv).
 
-## 6. Descriptive figures (from the dataset)
+## 7. Descriptive figures (from the dataset)
 **How six shocks reached the Irish market** — ISEQ vs S&P 500, FTSE 100 and DAX around each event (index = 100 the day before).
 ![Event windows](figures/hb_event_windows.png)
 
@@ -203,6 +253,8 @@ py -3.13 06_evaluation.py         # H1 tests and frozen-model test (~3 min)
 py -3.13 07_shap.py               # SHAP fingerprints, H2/H4 (~21 min; ~2 GB RAM)
 py -3.13 08_robustness.py all     # robustness checks (~1 hour)
 py -3.13 09_report_figures.py     # report figures from saved results
+py -3.13 11_connectedness.py      # exploratory E1: Diebold-Yilmaz spillovers vs SHAP (seconds)
+py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED data from 1955 (seconds)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -228,6 +280,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Explanations: grouped SHAP by window with bootstrap intervals; seed stability (`07`)
 - [ ] Robustness: Parkinson ✅ · FTSE for DAX (incl. Brexit) · look-back 66 · post-2023 (`08`) — to run
 - [x] Project handbook (`docs/Project_Handbook.docx`)
+- [x] Exploratory extensions (Amendment A1): spillovers vs SHAP (`11`), volatility paradox (`12`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 

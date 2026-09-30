@@ -1,0 +1,10 @@
+market,window,pre_crisis_years,low5_before,percentile,unusually_calm,history,n_years
+Ireland,Global Financial Crisis,2003-2007,-0.0317,40.0,False,1970-2024,55
+Ireland,Irish sovereign debt crisis,2005-2009,-0.0189,61.8182,False,1970-2024,55
+Ireland,COVID-19,2015-2019,-0.0197,60.0,False,1970-2024,55
+United States,Global Financial Crisis,2003-2007,-0.0223,41.5094,False,1972-2024,53
+United States,Irish sovereign debt crisis,2005-2009,-0.0167,60.3774,False,1972-2024,53
+United States,COVID-19,2015-2019,-0.0204,49.0566,False,1972-2024,53
+Germany,Global Financial Crisis,2003-2007,-0.0486,4.0,True,1975-2024,50
+Germany,Irish sovereign debt crisis,2005-2009,-0.0361,16.0,True,1975-2024,50
+Germany,COVID-19,2015-2019,-0.0266,40.0,False,1975-2024,50
