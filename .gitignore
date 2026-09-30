@@ -12,3 +12,6 @@ __pycache__/
 ~$*.docx
 *.pt
 models/
+
+# Personal planning copies (PhD plans, contacts, integrity notes) - never commit
+private/

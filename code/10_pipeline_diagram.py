@@ -14,12 +14,12 @@ FIG = Path(__file__).resolve().parent.parent / "figures"
 boxes = [
     (0.2, 4.2, "1. DATA  (01)", "Yahoo Finance daily closes\nISEQ · S&P 500 · DAX (+FTSE)\n2003 – Aug 2023", "#dbe9f6"),
     (3.6, 4.2, "2. FEATURES  (01)", "returns, squared returns\n5-day realised variance target\nno look-ahead alignment", "#dbe9f6"),
-    (7.0, 4.2, "3. PRE-REGISTRATION", "hypotheses H1–H4 fixed\nbefore any model is run", "#fff2cc"),
+    (7.0, 4.2, "3. PRE-REGISTRATION", "hypotheses H1–H4 fixed\nbefore any model is run\n(+ Amendment A1, 30 Sep 2026)", "#fff2cc"),
     (0.2, 2.1, "4. BENCHMARKS  (04)", "GARCH(1,1) · HAR\nannual walk-forward refits", "#e2f0d9"),
     (3.6, 2.1, "5. LSTM  (05)", "tuned once, then 17 yearly refits\n× 5 seeds = 85 models", "#e2f0d9"),
     (7.0, 2.1, "6. EVALUATION  (06)", "QLIKE · Diebold–Mariano (H1)\nfrozen models (H3)", "#fce4d6"),
     (0.2, 0.0, "7. SHAP  (07)", "which market drives each forecast?\nchannel shares, lags (H2, H4)", "#fce4d6"),
-    (3.6, 0.0, "8. ROBUSTNESS  (08)", "FTSE for DAX · look-back 66\nParkinson · post-2023", "#fce4d6"),
+    (3.6, 0.0, "8. CHECKS  (08; 11–12)", "robustness: FTSE for DAX · look-back 66\nParkinson · post-2023\nexploratory: spillovers vs SHAP\nvolatility paradox", "#fce4d6"),
     (7.0, 0.0, "9. REPORT  (09, README)", "tables and figures\n→ dissertation chapters", "#ededed"),
 ]
 fig, ax = plt.subplots(figsize=(12, 6.4))
