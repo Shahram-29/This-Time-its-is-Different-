@@ -15,3 +15,8 @@ models/
 
 # Personal planning copies (PhD plans, contacts, integrity notes) - never commit
 private/
+
+# Colab data bundle (contains Yahoo data) and notebook outputs - not committed
+colab/DataSets_for_Drive/
+colab/outputs/
+colab/*.zip

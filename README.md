@@ -258,6 +258,8 @@ py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED dat
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
+**Google Colab:** [`colab/This_Time_Is_Different_Colab.ipynb`](colab/This_Time_Is_Different_Colab.ipynb) runs the whole pipeline as one step-by-step notebook, laid out like the MSc machine-learning module notebooks (quick mode about 5–10 minutes; see [`colab/README.md`](colab/README.md)).
+
 ## Repository layout
 | Path | Contents |
 |---|---|
@@ -267,6 +269,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 | [`data/data_quality_report.txt`](data/data_quality_report.txt) | data checks behind each design decision |
 | [`docs/`](docs/) | project handbook, research plan, Chapter 2 blueprint, literature handbook (study and planning documents, not dissertation text) |
 | [`notes/decisions.md`](notes/decisions.md) | dated design decisions with evidence |
+| [`colab/`](colab/) | the whole project as one Google Colab notebook (+ builder script) |
 | [`notes/ai_use.md`](notes/ai_use.md) | AI-assistance log |
 | [`PREREGISTRATION.md`](PREREGISTRATION.md) | hypotheses and design |
 
