@@ -74,3 +74,42 @@ hypothesis will be reported in full.
 
 ## Amendments
 _(date — change — reason)_
+
+### A1 — 30 Sep 2026 — two exploratory analyses, added after the main results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+These analyses are **exploratory**. They were chosen after the RQ1–RQ4 results had been seen, so they cannot
+confirm or rescue any hypothesis, and they will be reported in a separate "Exploratory extensions" section.
+Their specification is fixed here, before either analysis is run.
+
+**E1 — Does an econometric spillover measure tell the same story as SHAP?** (Diebold & Yilmaz, 2012)
+- Variables: log 5-day backward realised variance (mean of the last 5 squared daily returns, floor 1e-8) of the
+  ISEQ, S&P 500 and DAX, from the same aligned dataset the LSTM uses.
+- VAR(4) by OLS on 200-day rolling windows ending at each forecast origin t; generalized forecast-error variance
+  decomposition (Pesaran & Shin, 1998) at a 10-day horizon, rows normalised to sum to 1.
+- Measure: the ISEQ row (own share, share from the US, share from the DAX), averaged over the same days that were
+  explained with SHAP (every day in each window, every 10th calm day). Also reported: the full-sample spillover
+  table and the total spillover index.
+- Comparison with the SHAP channel shares (descriptive, no test): (i) for the 4 crisis windows × 2 foreign
+  channels, does the change from calm have the same sign in both measures (count out of 8)? (ii) in each of the
+  5 windows (calm included), do both measures rank the US and euro channels the same way (count out of 5)?
+- Sensitivity: daily log squared returns instead of 5-day realised variance; rolling windows of 100 and 300 days.
+- Caveat: a variance decomposition of a linear model and the attributions of a non-linear network measure
+  different things. Disagreement is a finding, not an error.
+
+**E2 — Were the crises preceded by unusually calm markets? (volatility paradox; Danielsson, Valenzuela & Zer, 2018)**
+- Data: OECD monthly share-price indices from FRED for Ireland (from 1955), the United States (1957) and Germany
+  (1960). They are monthly averages of daily closes; the Irish series is the ISEQ (monthly-return correlation
+  0.9996 with the Yahoo ISEQ, 2002–2025). A long history is needed to estimate a trend; the Yahoo data is too short.
+- Method as in the paper: monthly log returns winsorised at 0.5% / 99.5%; annual volatility = standard deviation
+  of the 12 monthly returns from July to June × √12; one-sided (recursive) Hodrick–Prescott trend with
+  λ = 5,000, starting at the 10th annual observation; δlow = min(σ − trend, 0).
+- Deviations from the paper: nominal instead of real returns; monthly averages instead of month-end prices;
+  single markets, so no panel logit.
+- Measure: the mean of δlow over the five complete July–June years before each window starts (GFC: 2003–07;
+  Irish sovereign debt crisis: 2005–09; COVID-19: 2015–19), and its percentile within the same market's history.
+  "Unusually calm" = bottom 20%.
+- Expectation (Minsky; Danielsson et al.): the GFC, a credit-driven crisis, was preceded by unusually calm
+  markets, at least in Ireland and the US; COVID-19, an external shock, was not. One observation per market
+  and crisis, so descriptive only.
+- Cross-check: annual volatility from FRED vs from the Yahoo daily closes, 2004–2023 (correlation).
