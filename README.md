@@ -150,9 +150,9 @@ difference). GARCH remains the most accurate model overall; the LSTM remains the
 *Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
 Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
-## 5. Exploratory extensions (Amendment A1)
-*Chosen after the main results were known. The specification was committed before either analysis was run
-(commit 9c89f79, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
+## 5. Exploratory extensions (Amendments A1, A2)
+*Chosen after the main results were known. Each specification was committed before the analysis was run
+(commits 9c89f79 and f1a0655, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
 any hypothesis.*
 
 **E1: econometric spillovers vs SHAP** (Diebold & Yilmaz, 2012). Method: VAR(4) on log 5-day realised variance
@@ -199,6 +199,35 @@ the bottom 20% counts as "unusually calm".
 - **Cross-check:** FRED and Yahoo annual volatility correlate 0.89–0.91 (2004–23). FRED levels are lower because monthly averaging smooths returns.
 
 ![Volatility paradox](figures/volatility_paradox.png)
+
+**E3: classical machine-learning benchmarks** (Amendment A2). Random Forest and SVR from the MSc module, with the
+HAR ingredients (daily, weekly and monthly squared returns) of the ISEQ, S&P 500 and DAX as inputs. They were tuned
+once with `GridSearchCV` and `TimeSeriesSplit` (5 folds, 5-day gap) on 2003–05, then run walk-forward exactly like
+the LSTM. QLIKE, lower is better:
+
+| Window | LSTM | GARCH | HAR | Random Forest | SVR |
+|---|---|---|---|---|---|
+| All test days | 0.463 | **0.380** | 0.414 | 0.456 | 0.457 |
+| Global Financial Crisis | 1.021 | **0.401** | 0.676 | 1.028 | 1.137 |
+| Irish sovereign debt crisis | 0.455 | **0.374** | 0.380 | 0.429 | 0.396 |
+| COVID-19 | 0.562 | 0.700 | 0.763 | **0.554** | 0.557 |
+| War / energy shock 2022 | **0.264** | 0.290 | 0.282 | 0.279 | 0.295 |
+| Calm | 0.367 | **0.351** | 0.360 | 0.366 | 0.355 |
+
+- **Settings chosen by the grid:** the simplest ones. The Random Forest uses depth 3; the SVR uses an RBF kernel
+  with C = 1 and γ = 0.01, which is almost linear.
+- **Against GARCH:** both are significantly worse on all test days (DM-HLN p = 0.002 Random Forest, 0.007 SVR).
+- **Against HAR:** the Random Forest is worse (p = 0.03); the SVR is not significantly different (p = 0.06).
+- **Against the LSTM:** no difference (p = 0.63 and 0.73).
+- **Both stated expectations are met.** The Random Forest is worse than the LSTM in the GFC, though only just
+  (1.028 vs 1.021). Neither model beats GARCH.
+- **Main reading:** three very different learners (a neural network, trees, a kernel method) fail in the same place.
+  - In the GFC each under-forecast on 69% of days. Their highest 2008 forecasts were 21–36 (× 10⁻⁴), against an
+    actual peak of 292 and a GARCH peak of 168.
+  - All three beat GARCH and HAR in COVID-19.
+  - The weakness therefore belongs to models that learn only from past data, not to the LSTM's design.
+
+![Forecasts through the GFC](figures/ml_benchmarks_gfc.png)
 
 ## 6. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
@@ -255,6 +284,7 @@ py -3.13 08_robustness.py all     # robustness checks (~1 hour)
 py -3.13 09_report_figures.py     # report figures from saved results
 py -3.13 11_connectedness.py      # exploratory E1: Diebold-Yilmaz spillovers vs SHAP (seconds)
 py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED data from 1955 (seconds)
+py -3.13 13_ml_benchmarks.py     # exploratory E3: Random Forest and SVR with GridSearchCV (~2 min)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -286,6 +316,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [ ] Robustness: Parkinson ✅ · FTSE for DAX (incl. Brexit) · look-back 66 · post-2023 (`08`) — to run
 - [x] Project handbook (`docs/Project_Handbook.docx`)
 - [x] Exploratory extensions (Amendment A1): spillovers vs SHAP (`11`), volatility paradox (`12`)
+- [x] Exploratory extension (Amendment A2): Random Forest and SVR benchmarks (`13`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 
