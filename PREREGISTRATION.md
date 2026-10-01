@@ -256,3 +256,64 @@ below is fixed before any other ISEQ-only model is run.
 - Expectations stated in advance: (i) GARCH is in the 90% MCS; (ii) no ISEQ-only model has a significantly lower
   QLIKE than GARCH (DM-HLN, 5%); (iii) each ISEQ-only plain learner (LSTM, Random Forest, SVR, XGBoost) has an
   Irish-window QLIKE no higher than its three-market version.
+
+### A6 — 2 Oct 2026 — change of focus: one market (ISEQ), one crisis (Ireland 2007–2012) in Kindleberger–Minsky phases
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+**Why.** With three months left, the dissertation narrows to the Irish market and the Irish financial crisis, read
+through Minsky (1992) and Kindleberger & Aliber (2015). This is a change of focus made after the results of RQ1–RQ4
+and E1–E7 were known. The pre-registered tests (H1–H4) and E1–E7 stay in the repository and will be reported in
+full (summary table in an appendix); nothing is withdrawn. Everything below is **exploratory** (E8).
+
+**What is already known before this amendment.** The GFC and Irish-window results of GARCH, HAR and the LSTM; the
+ISEQ-only LSTM (post-hoc check, all years); and, from E7, the ISEQ-only Random Forest, SVR and XGBoost with leverage
+inputs for 2010–2012. New: the phase split, the Irish bank inputs, the frozen-model comparison across all models,
+and the SHAP analysis of the new models. Before this amendment the bank data were checked for coverage and stale
+prices only (no model was fitted).
+
+**Phases** (dates from the Irish crisis timeline in the Literature Handbook, section B, written on 24 Sep 2026
+before any results; ISEQ closes):
+- Boom (Minsky's calm): 2 Jan 2003 – 19 Feb 2007 — training data only, described, not scored;
+- P1 Distress: 20 Feb 2007 (ISEQ peak) – 29 Sep 2008;
+- P2 Panic and lender of last resort: 30 Sep 2008 (bank guarantee) – 9 Mar 2009 (ISEQ trough);
+- P3 Relief: 10 Mar 2009 – 22 Apr 2010;
+- P4 Sovereign crisis: 23 Apr 2010 (Greek request) – 26 Jul 2012 (Draghi);
+- the whole crisis: 20 Feb 2007 – 26 Jul 2012.
+
+**Data — Irish only.** ISEQ daily closes (the existing dataset), and two Irish banks from Yahoo Finance: Bank of
+Ireland (`BIRG.IR`) and AIB (`A5G.IR`), adjusted closes, joined backward on the ISEQ dates. Bank return = the average
+of the two daily log returns. PTSB is excluded (51% of 2010–12 days have no price change). No foreign data, no VIX.
+Daily Irish government bond yields are not freely available (checked 2 Oct 2026), so none are used.
+
+**Features** (known at the ISEQ close of day t). Target as before: log forward 5-day realised variance of the ISEQ.
+- Set A, ISEQ (6): logs of the daily, weekly (5-day mean) and monthly (22-day mean) squared ISEQ returns; leverage
+  terms min(r, 0) on the day and averaged over 5 and 22 days (Corsi & Renò, 2012).
+- Set B, ISEQ + banks (9): Set A + logs of the daily, weekly and monthly squared bank returns.
+
+**Models** (12). GARCH(1,1)-t and HAR (saved forecasts); for each feature set: LSTM (daily inputs: ISEQ return and
+log squared return, plus the bank pair in B; settings 22/64/2, seeds 1–5, as in the main study), Random Forest, SVR,
+XGBoost, and the Random Forest GARCH hybrid (inputs + log GARCH forecast; target log(RV5) − log(GARCH)).
+Rules as in A2–A3: test years 2007–2012, refitted every year; fitting days to 31 Dec of Y−2, validation year Y−1 (early
+stopping for the LSTM; smearing for all learners); learners tuned once on the first window (fitting days 2003–2005)
+with `GridSearchCV`, `TimeSeriesSplit(5, gap 5)`, negative MSE, the A2–A3 grids; SVR inputs standardised.
+
+**Minsky test (frozen models).** Every model is also run frozen: estimated once on data to 31 Dec 2006 (the 2007
+refit, i.e. boom data only) and never refitted (GARCH keeps its 2007 parameters, HAR its 2007 coefficients).
+Measure: QLIKE frozen / QLIKE refitted, per phase.
+
+**Explanations.** TreeSHAP (interventional, 200 background fitting days, as in E5) for the Random Forest and the
+Random Forest hybrid with Set B, on every crisis day; shares by feature group (ISEQ size, ISEQ leverage, banks, GARCH
+input). GradientShap for the LSTM with Set B exactly as in step 07 (1,024 samples, 200 background windows, seeds 1–5),
+on every crisis day; shares ISEQ vs banks, direction vs size, and the lag profile.
+
+**Evaluation.** QLIKE (primary) and MSE per phase and for the whole crisis. Primary: the 90% Model Confidence Set
+over the 12 refitted models in each phase (E6 settings). Secondary (descriptive, unadjusted): DM-HLN vs GARCH; Set B
+vs Set A for each learner.
+
+**Expectations stated in advance.**
+(i) GARCH is in the 90% MCS in P1 and in P2.
+(ii) In P1 and P2, each plain learner (LSTM, Random Forest, SVR, XGBoost; both sets) has a higher QLIKE than GARCH.
+(iii) In P1 and P2, the bank inputs lower the QLIKE of most learners (Set B below Set A for at least 3 of the 5).
+(iv) Frozen boom-trained learners lose more than frozen GARCH: in P1 and P2 the frozen/refitted QLIKE ratio of each
+plain learner is above GARCH's.
+(v) The bank share of the attributions (LSTM and Random Forest, Set B) is highest in P2 among the four phases.
