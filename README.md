@@ -150,9 +150,9 @@ difference). GARCH remains the most accurate model overall; the LSTM remains the
 *Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
 Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
-## 5. Exploratory extensions (Amendments A1–A4)
+## 5. Exploratory extensions (Amendments A1–A5)
 *Chosen after the main results were known. Each specification was committed before the analysis was run
-(commits 9c89f79, f1a0655, d179ad5 and 055f948, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
+(commits 9c89f79, f1a0655, d179ad5, 055f948 and ff57776, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
 any hypothesis.*
 
 **E1: econometric spillovers vs SHAP** (Diebold & Yilmaz, 2012). Method: VAR(4) on log 5-day realised variance
@@ -335,6 +335,41 @@ Random Forest GARCH hybrid; the XGBoost hybrid is a check.
   | 2022 | GARCH, HAR, LSTM, HAR-X, SVR-X |
 - **Expectations:** (i) and (ii) are met; (iii) is not.
 
+**E7: the Irish sovereign debt crisis with ISEQ data only** (Amendment A5, post-hoc).
+- **Models:** each of the 14 models in an ISEQ-only version.
+  - No S&P 500 or DAX inputs; the "-L" models replace the VIX with the ISEQ leverage terms.
+  - Same walk-forward refits for 2010–2012, scored on the 574 Irish-window days.
+  - Data after the crisis cannot enter these forecasts, so the sample end does not matter here.
+
+| Model (ISEQ only) | QLIKE | Three-market version | DM vs GARCH, p | In the 90% MCS |
+|---|---|---|---|---|
+| HAR-L (HAR + leverage) | **0.358** | 0.342 (HAR-X) | 0.17 | yes (p = 1.00) |
+| SVR-L | 0.365 | 0.361 | 0.57 | yes |
+| SVR-hybrid | 0.371 | 0.386 | 0.60 | yes |
+| GARCH | 0.374 | — | — | yes |
+| HAR | 0.380 | — | 0.57 | yes |
+| GARCH + LSTM average | 0.380 | 0.376 | 0.78 | yes |
+| Random Forest-hybrid | 0.380 | 0.385 | 0.47 | yes |
+| SVR | 0.382 | 0.396 | 0.50 | yes |
+| XGBoost-hybrid | 0.391 | 0.401 | 0.18 | yes |
+| Random Forest-L | 0.395 | 0.401 | 0.33 | yes |
+| Random Forest | 0.407 | 0.429 | 0.11 | yes |
+| XGBoost-L | 0.415 | 0.411 | 0.07 | no |
+| LSTM | 0.418 | 0.455 | 0.19 | no (p = 0.048) |
+| XGBoost | 0.418 | 0.436 | 0.03 (worse) | no |
+
+- **No model is significantly better than GARCH**, and 11 of 14 are in the 90% set: the domestic crisis does not
+  separate the models.
+- **Foreign stock-market inputs did not help here.** Every plain learner is better with ISEQ data only: LSTM 0.418 vs
+  0.455, Random Forest 0.407 vs 0.429, SVR 0.382 vs 0.396, XGBoost 0.418 vs 0.436. So are the hybrids.
+- **The VIX helps; past foreign returns do not.** The only three-market model clearly ahead of its ISEQ-only version
+  is HAR-X (0.342 vs 0.358 for HAR-L), and the VIX is the extra input that separates them.
+- **Domestic leverage helps HAR:** HAR-L 0.358 vs HAR 0.380.
+- **Expectations:** (i)–(iii) are all met.
+- The ISEQ-only LSTM reproduces the earlier post-hoc run to 1.4e-7.
+
+![ISEQ-only models in the Irish crisis](figures/e7_irish_iseq_only.png)
+
 ## 6. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
 configurations score above 1.0 (worse than predicting the training mean) because the validation years differ from
@@ -393,6 +428,7 @@ py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED dat
 py -3.13 13_ml_benchmarks.py     # exploratory E3: Random Forest and SVR with GridSearchCV (~2 min)
 py -3.13 14_hybrid_boosting.py   # exploratory E4: XGBoost, GARCH hybrids, VIX/leverage, combination (~10 min)
 py -3.13 15_treeshap_mcs.py      # exploratory E5-E6: TreeSHAP of the GARCH correction, Model Confidence Set (~15 min)
+py -3.13 16_irish_iseq_only.py   # exploratory E7: all models with ISEQ data only, Irish sovereign debt crisis (~5 min)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -427,6 +463,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Exploratory extension (Amendment A2): Random Forest and SVR benchmarks (`13`)
 - [x] Exploratory extension (Amendment A3): XGBoost, GARCH hybrids, VIX/leverage inputs, combination (`14`)
 - [x] Exploratory extensions (Amendment A4): TreeSHAP of the GARCH correction, Model Confidence Set (`15`)
+- [x] Exploratory extension (Amendment A5): ISEQ-only models in the Irish sovereign debt crisis (`16`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 

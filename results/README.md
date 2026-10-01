@@ -28,6 +28,9 @@
 | `e5_correction_shares.csv` | `15_treeshap_mcs.py` | Exploratory E5: channel shares of \|TreeSHAP\| of the GARCH hybrids' correction by window (4- and 3-channel versions, 95% block-bootstrap intervals; Random Forest and XGBoost hybrids) |
 | `e5_checks.csv` | `15_treeshap_mcs.py` | E5 expectations and agreement counts with the LSTM SHAP shares |
 | `e6_mcs.csv` | `15_treeshap_mcs.py` | Exploratory E6: Model Confidence Set p-values and 90% membership for 14 models — QLIKE and MSE on all days, sensitivity runs, windows |
+| `e7_tuning.csv` | `16_irish_iseq_only.py` | Exploratory E7: cross-validated MSE for every setting of the nine ISEQ-only learners (tuned on 2003–05) |
+| `e7_forecasts.csv` | `16_irish_iseq_only.py` | Forecasts of the 14 ISEQ-only models for the test years 2010–2012 |
+| `e7_irish_results.csv` | `16_irish_iseq_only.py` | Irish-window QLIKE and MSE, DM-HLN vs GARCH, three-market QLIKE, MCS p-value and 90% membership per model |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.
