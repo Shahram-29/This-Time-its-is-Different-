@@ -1,0 +1,141 @@
+loss,sample,spec,model,mean_loss,mcs_pvalue,in_90_mcs
+QLIKE,All test days,main,GARCH,0.3795803248980571,0.3487,True
+QLIKE,All test days,main,HAR,0.413750925184534,0.0185,False
+QLIKE,All test days,main,LSTM,0.4626328217067528,0.0063,False
+QLIKE,All test days,main,RF,0.45571583431605117,0.0044,False
+QLIKE,All test days,main,SVR,0.4574607865620954,0.0292,False
+QLIKE,All test days,main,XGB,0.450053509887241,0.0004,False
+QLIKE,All test days,main,RF-hybrid,0.3763340029194714,0.3487,True
+QLIKE,All test days,main,SVR-hybrid,0.3758484708524439,0.3487,True
+QLIKE,All test days,main,XGB-hybrid,0.39436394826936466,0.0209,False
+QLIKE,All test days,main,HAR-X,0.3607765664403066,1.0,True
+QLIKE,All test days,main,RF-X,0.4267416889537855,0.0232,False
+QLIKE,All test days,main,SVR-X,0.48765895059230746,0.1681,True
+QLIKE,All test days,main,XGB-X,0.4022417589751429,0.1018,True
+QLIKE,All test days,main,GARCH+LSTM,0.3799604785974191,0.2872,True
+MSE,All test days,main,GARCH,2.630157289564758,1.0,True
+MSE,All test days,main,HAR,3.27203127965519,0.2712,True
+MSE,All test days,main,LSTM,3.858323290194818,0.2479,True
+MSE,All test days,main,RF,4.00028949220492,0.0364,False
+MSE,All test days,main,SVR,3.916132726183829,0.2479,True
+MSE,All test days,main,XGB,4.024493178598732,0.0659,False
+MSE,All test days,main,RF-hybrid,2.777356722281167,0.4577,True
+MSE,All test days,main,SVR-hybrid,2.949116694221074,0.4577,True
+MSE,All test days,main,XGB-hybrid,2.9636540545545396,0.2712,True
+MSE,All test days,main,HAR-X,394.88466349560406,0.4577,True
+MSE,All test days,main,RF-X,3.770170799045937,0.2479,True
+MSE,All test days,main,SVR-X,4.432549126611913,0.0346,False
+MSE,All test days,main,XGB-X,3.737151716605947,0.2479,True
+MSE,All test days,main,GARCH+LSTM,2.925157898556104,0.4577,True
+QLIKE,All test days,block 5,GARCH,0.3795803248980571,0.2838,True
+QLIKE,All test days,block 5,HAR,0.413750925184534,0.0072,False
+QLIKE,All test days,block 5,LSTM,0.4626328217067528,0.0007,False
+QLIKE,All test days,block 5,RF,0.45571583431605117,0.0005,False
+QLIKE,All test days,block 5,SVR,0.4574607865620954,0.006,False
+QLIKE,All test days,block 5,XGB,0.450053509887241,0.0,False
+QLIKE,All test days,block 5,RF-hybrid,0.3763340029194714,0.2838,True
+QLIKE,All test days,block 5,SVR-hybrid,0.3758484708524439,0.2838,True
+QLIKE,All test days,block 5,XGB-hybrid,0.39436394826936466,0.0072,False
+QLIKE,All test days,block 5,HAR-X,0.3607765664403066,1.0,True
+QLIKE,All test days,block 5,RF-X,0.4267416889537855,0.006,False
+QLIKE,All test days,block 5,SVR-X,0.48765895059230746,0.0459,False
+QLIKE,All test days,block 5,XGB-X,0.4022417589751429,0.0459,False
+QLIKE,All test days,block 5,GARCH+LSTM,0.3799604785974191,0.2256,True
+QLIKE,All test days,block 22,GARCH,0.3795803248980571,0.3795,True
+QLIKE,All test days,block 22,HAR,0.413750925184534,0.0221,False
+QLIKE,All test days,block 22,LSTM,0.4626328217067528,0.0263,False
+QLIKE,All test days,block 22,RF,0.45571583431605117,0.0267,False
+QLIKE,All test days,block 22,SVR,0.4574607865620954,0.0961,False
+QLIKE,All test days,block 22,XGB,0.450053509887241,0.0023,False
+QLIKE,All test days,block 22,RF-hybrid,0.3763340029194714,0.3795,True
+QLIKE,All test days,block 22,SVR-hybrid,0.3758484708524439,0.3795,True
+QLIKE,All test days,block 22,XGB-hybrid,0.39436394826936466,0.0493,False
+QLIKE,All test days,block 22,HAR-X,0.3607765664403066,1.0,True
+QLIKE,All test days,block 22,RF-X,0.4267416889537855,0.0563,False
+QLIKE,All test days,block 22,SVR-X,0.48765895059230746,0.3023,True
+QLIKE,All test days,block 22,XGB-X,0.4022417589751429,0.1768,True
+QLIKE,All test days,block 22,GARCH+LSTM,0.3799604785974191,0.2965,True
+QLIKE,All test days,max statistic,GARCH,0.3795803248980571,0.5867,True
+QLIKE,All test days,max statistic,HAR,0.413750925184534,0.172,True
+QLIKE,All test days,max statistic,LSTM,0.4626328217067528,0.0106,False
+QLIKE,All test days,max statistic,RF,0.45571583431605117,0.0081,False
+QLIKE,All test days,max statistic,SVR,0.4574607865620954,0.0403,False
+QLIKE,All test days,max statistic,XGB,0.450053509887241,0.0008,False
+QLIKE,All test days,max statistic,RF-hybrid,0.3763340029194714,0.5867,True
+QLIKE,All test days,max statistic,SVR-hybrid,0.3758484708524439,0.5867,True
+QLIKE,All test days,max statistic,XGB-hybrid,0.39436394826936466,0.172,True
+QLIKE,All test days,max statistic,HAR-X,0.3607765664403066,1.0,True
+QLIKE,All test days,max statistic,RF-X,0.4267416889537855,0.064,False
+QLIKE,All test days,max statistic,SVR-X,0.48765895059230746,0.172,True
+QLIKE,All test days,max statistic,XGB-X,0.4022417589751429,0.2111,True
+QLIKE,All test days,max statistic,GARCH+LSTM,0.3799604785974191,0.5867,True
+QLIKE,calm,window,GARCH,0.35098090205016425,0.009,False
+QLIKE,calm,window,HAR,0.35953470214290295,0.0047,False
+QLIKE,calm,window,LSTM,0.3671900842442647,0.0057,False
+QLIKE,calm,window,RF,0.36594192511718215,0.0047,False
+QLIKE,calm,window,SVR,0.35529927499578834,0.0081,False
+QLIKE,calm,window,XGB,0.3691138813914628,0.0058,False
+QLIKE,calm,window,RF-hybrid,0.3505518443440264,0.0222,False
+QLIKE,calm,window,SVR-hybrid,0.35073545231515446,0.0222,False
+QLIKE,calm,window,XGB-hybrid,0.3565849497336753,0.0222,False
+QLIKE,calm,window,HAR-X,0.32252652318343816,1.0,True
+QLIKE,calm,window,RF-X,0.3509138205025646,0.0222,False
+QLIKE,calm,window,SVR-X,0.3414510511362134,0.1552,True
+QLIKE,calm,window,XGB-X,0.3421473334985209,0.1552,True
+QLIKE,calm,window,GARCH+LSTM,0.34607776694893844,0.0222,False
+QLIKE,Global Financial Crisis,window,GARCH,0.4009734483991148,0.1658,True
+QLIKE,Global Financial Crisis,window,HAR,0.6761398744497517,0.0079,False
+QLIKE,Global Financial Crisis,window,LSTM,1.020825405517659,0.0699,False
+QLIKE,Global Financial Crisis,window,RF,1.0277495742723997,0.0699,False
+QLIKE,Global Financial Crisis,window,SVR,1.1366139344161743,0.0833,False
+QLIKE,Global Financial Crisis,window,XGB,0.9253434523710844,0.027,False
+QLIKE,Global Financial Crisis,window,RF-hybrid,0.3613640592316493,1.0,True
+QLIKE,Global Financial Crisis,window,SVR-hybrid,0.3715682672741994,0.2888,True
+QLIKE,Global Financial Crisis,window,XGB-hybrid,0.4553218315562315,0.0316,False
+QLIKE,Global Financial Crisis,window,HAR-X,0.49049887011487325,0.1658,True
+QLIKE,Global Financial Crisis,window,RF-X,0.892306187440662,0.0699,False
+QLIKE,Global Financial Crisis,window,SVR-X,1.7185639892526576,0.0861,False
+QLIKE,Global Financial Crisis,window,XGB-X,0.7431454058818224,0.0699,False
+QLIKE,Global Financial Crisis,window,GARCH+LSTM,0.4694082658999099,0.1658,True
+QLIKE,Irish sovereign debt crisis,window,GARCH,0.3743093261214953,0.1528,True
+QLIKE,Irish sovereign debt crisis,window,HAR,0.37975422958415944,0.1147,True
+QLIKE,Irish sovereign debt crisis,window,LSTM,0.45451941821640807,0.1072,True
+QLIKE,Irish sovereign debt crisis,window,RF,0.42872266065365705,0.0001,False
+QLIKE,Irish sovereign debt crisis,window,SVR,0.3964399832148808,0.0077,False
+QLIKE,Irish sovereign debt crisis,window,XGB,0.43563062044956974,0.0002,False
+QLIKE,Irish sovereign debt crisis,window,RF-hybrid,0.38531948525569965,0.1127,True
+QLIKE,Irish sovereign debt crisis,window,SVR-hybrid,0.38555123199610297,0.102,True
+QLIKE,Irish sovereign debt crisis,window,XGB-hybrid,0.4005228349834532,0.0195,False
+QLIKE,Irish sovereign debt crisis,window,HAR-X,0.3423993067552764,1.0,True
+QLIKE,Irish sovereign debt crisis,window,RF-X,0.4013991782421753,0.0077,False
+QLIKE,Irish sovereign debt crisis,window,SVR-X,0.36050547885465356,0.2397,True
+QLIKE,Irish sovereign debt crisis,window,XGB-X,0.4112752642231539,0.0154,False
+QLIKE,Irish sovereign debt crisis,window,GARCH+LSTM,0.37609265304449346,0.1528,True
+QLIKE,COVID-19,window,GARCH,0.6995150140305365,0.4467,True
+QLIKE,COVID-19,window,HAR,0.7628664280682353,0.6979,True
+QLIKE,COVID-19,window,LSTM,0.5619059646156338,0.4467,True
+QLIKE,COVID-19,window,RF,0.5543865312394225,0.6979,True
+QLIKE,COVID-19,window,SVR,0.5570222180630874,0.4467,True
+QLIKE,COVID-19,window,XGB,0.5303159686985515,0.6979,True
+QLIKE,COVID-19,window,RF-hybrid,0.6386358460868446,0.3058,True
+QLIKE,COVID-19,window,SVR-hybrid,0.5913165190414366,0.2188,True
+QLIKE,COVID-19,window,XGB-hybrid,0.6175804192241339,0.2372,True
+QLIKE,COVID-19,window,HAR-X,0.5264285920400998,0.8013,True
+QLIKE,COVID-19,window,RF-X,0.5384180833293927,0.8013,True
+QLIKE,COVID-19,window,SVR-X,0.5312462991790052,0.8013,True
+QLIKE,COVID-19,window,XGB-X,0.5014664424635421,1.0,True
+QLIKE,COVID-19,window,GARCH+LSTM,0.587809502644816,0.4467,True
+QLIKE,War / energy shock 2022,window,GARCH,0.289619085922162,0.1378,True
+QLIKE,War / energy shock 2022,window,HAR,0.28170537106656973,0.1378,True
+QLIKE,War / energy shock 2022,window,LSTM,0.26442895788741555,0.1149,True
+QLIKE,War / energy shock 2022,window,RF,0.2785324801670599,0.0008,False
+QLIKE,War / energy shock 2022,window,SVR,0.2946025867678879,0.0014,False
+QLIKE,War / energy shock 2022,window,XGB,0.2995298664699169,0.0011,False
+QLIKE,War / energy shock 2022,window,RF-hybrid,0.2795095404989987,0.0383,False
+QLIKE,War / energy shock 2022,window,SVR-hybrid,0.28371212613899444,0.0102,False
+QLIKE,War / energy shock 2022,window,XGB-hybrid,0.28961988814604045,0.0102,False
+QLIKE,War / energy shock 2022,window,HAR-X,0.20971089232605294,1.0,True
+QLIKE,War / energy shock 2022,window,RF-X,0.24956638451771748,0.0843,False
+QLIKE,War / energy shock 2022,window,SVR-X,0.23326879055064906,0.1378,True
+QLIKE,War / energy shock 2022,window,XGB-X,0.26001139681223134,0.0953,False
+QLIKE,War / energy shock 2022,window,GARCH+LSTM,0.24314837890337562,0.0383,False

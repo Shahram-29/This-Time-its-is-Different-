@@ -1,0 +1,21 @@
+model,check,value,met
+RF-hybrid,(i) foreign share above LSTM's: Global Financial Crisis,0.492 vs 0.518,False
+RF-hybrid,(i) foreign share above LSTM's: Irish sovereign debt crisis,0.681 vs 0.488,True
+RF-hybrid,(i) foreign share above LSTM's: COVID-19,0.669 vs 0.512,True
+RF-hybrid,(i) foreign share above LSTM's: War / energy shock 2022,0.745 vs 0.460,True
+RF-hybrid,(ii) US share rises: Global Financial Crisis,0.274 (low) vs calm 0.406,False
+RF-hybrid,(ii) US share rises: COVID-19,0.392 (low) vs calm 0.406,False
+RF-hybrid,(ii) euro share rises: Irish sovereign debt crisis,0.168 (low) vs calm 0.195,False
+RF-hybrid,(ii) euro share rises: War / energy shock 2022,0.149 (low) vs calm 0.195,False
+RF-hybrid,agreement with LSTM SHAP: sign of change from calm (of 8),3,
+RF-hybrid,agreement with LSTM SHAP: US-vs-euro ranking (of 5),5,
+XGB-hybrid,(i) foreign share above LSTM's: Global Financial Crisis,0.491 vs 0.518,False
+XGB-hybrid,(i) foreign share above LSTM's: Irish sovereign debt crisis,0.673 vs 0.488,True
+XGB-hybrid,(i) foreign share above LSTM's: COVID-19,0.732 vs 0.512,True
+XGB-hybrid,(i) foreign share above LSTM's: War / energy shock 2022,0.705 vs 0.460,True
+XGB-hybrid,(ii) US share rises: Global Financial Crisis,0.264 (low) vs calm 0.407,False
+XGB-hybrid,(ii) US share rises: COVID-19,0.417 (low) vs calm 0.407,True
+XGB-hybrid,(ii) euro share rises: Irish sovereign debt crisis,0.178 (low) vs calm 0.218,False
+XGB-hybrid,(ii) euro share rises: War / energy shock 2022,0.148 (low) vs calm 0.218,False
+XGB-hybrid,agreement with LSTM SHAP: sign of change from calm (of 8),3,
+XGB-hybrid,agreement with LSTM SHAP: US-vs-euro ranking (of 5),5,

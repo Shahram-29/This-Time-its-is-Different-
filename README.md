@@ -150,9 +150,9 @@ difference). GARCH remains the most accurate model overall; the LSTM remains the
 *Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
 Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
-## 5. Exploratory extensions (Amendments A1–A3)
+## 5. Exploratory extensions (Amendments A1–A4)
 *Chosen after the main results were known. Each specification was committed before the analysis was run
-(commits 9c89f79, f1a0655 and d179ad5, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
+(commits 9c89f79, f1a0655, d179ad5 and 055f948, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
 any hypothesis.*
 
 **E1: econometric spillovers vs SHAP** (Diebold & Yilmaz, 2012). Method: VAR(4) on log 5-day realised variance
@@ -277,6 +277,64 @@ Rules and grids are as in E3. QLIKE by window, and MSE (× 10⁶) on all test da
 
 ![Hybrids through the GFC](figures/e4_hybrids_gfc.png)
 
+**E5: what does GARCH miss? TreeSHAP of the hybrid's correction** (Amendment A4). The model explained is the
+Random Forest GARCH hybrid; the XGBoost hybrid is a check.
+- **Method:** interventional TreeSHAP with 200 background days, explaining the predicted correction
+  log(RV5) − log(GARCH forecast).
+- **Same design as the LSTM SHAP analysis:** same days, same share definition and same block bootstrap.
+- **Shares** below use the three information channels; the GARCH input is left out, and its own share comes from the
+  four-channel version.
+
+| Window | LSTM uses: domestic / US / euro | GARCH misses (hybrid correction): domestic / US / euro | GARCH-input share |
+|---|---|---|---|
+| Calm | 0.523 / 0.266 / 0.211 | 0.398 / 0.406 / 0.195 | 0.048 |
+| Global Financial Crisis | 0.482 / 0.299 / 0.219 | 0.508 / 0.311 / 0.181 | 0.160 |
+| Irish sovereign debt crisis | 0.512 / 0.252 / 0.236 | 0.319 / 0.493 / 0.189 | 0.041 |
+| COVID-19 | 0.488 / 0.332 / 0.180 | 0.331 / 0.459 / 0.210 | 0.085 |
+| War / energy shock 2022 | 0.540 / 0.317 / 0.143 | 0.255 / 0.573 / 0.172 | 0.044 |
+
+- **What GARCH misses is mainly the US market.** Outside the GFC the US share of the correction is 0.41–0.57,
+  against 0.25–0.33 for the LSTM.
+  - This fits the timing: the S&P 500 closes after Dublin, so its last move is news that a GARCH built only on the
+    ISEQ cannot yet see (Literature Handbook, Figure H4).
+- **The GFC is different.** The GARCH input's own share triples (0.05 to 0.16) and the domestic share is the
+  highest. There the hybrid mainly scales GARCH's own, too slow, level up rather than adding foreign news.
+- **Expectations:**
+  - (i) The correction's foreign share is above the LSTM's in 3 of 4 crisis windows, but not in the GFC.
+  - (ii) The H2-type rises hold in 0 of 4 (XGBoost hybrid: 1 of 4, US in COVID-19).
+- **Agreement with the LSTM SHAP shares:** the change from calm has the same sign in 3 of 8 cases; the US-vs-euro
+  ranking matches in 5 of 5 (US above euro everywhere).
+- **Checks:**
+  - The two hybrids give shares within 0.07 of each other.
+  - The refitted hybrids reproduce the E4 forecasts (largest relative difference 5.8e-13).
+  - TreeSHAP additivity holds to 1e-5.
+
+![What GARCH misses](figures/e5_correction_shares.png)
+
+**E6: which models are statistically best? Model Confidence Set** (Hansen, Lunde & Nason, 2011; Amendment A4). The
+14 models of E4 are compared; the main run uses the 90% set, the range statistic and a stationary bootstrap (block
+10, 10,000 draws).
+- **QLIKE, all test days — the 90% set:** GARCH, Random Forest-hybrid, SVR-hybrid, HAR-X, SVR-X, XGBoost-X and the
+  GARCH + LSTM average.
+  - Excluded: HAR (p = 0.018), LSTM (0.006), Random Forest (0.004), SVR (0.029), XGBoost (< 0.001),
+    XGBoost-hybrid (0.021), Random Forest-X (0.023).
+- **Sensitivity** (block lengths 5 and 22, max statistic):
+  - Always in: GARCH, the GARCH + LSTM average, HAR-X and the Random Forest and SVR hybrids.
+  - Always out: the LSTM, Random Forest, SVR, XGBoost and Random Forest-X.
+- **MSE:** 11 of 14 models are in the set; only Random Forest, XGBoost and SVR-X are excluded.
+  - MSE has little power here because a few extreme days dominate it. HAR-X stays in (p = 0.46) despite October
+    2008, so expectation (iii) is not met.
+- **By window (QLIKE):**
+
+  | Window | Models in the 90% set |
+  |---|---|
+  | Calm | Only the three VIX models (HAR-X, SVR-X, XGBoost-X) |
+  | GFC | GARCH, the Random Forest and SVR hybrids, HAR-X, GARCH + LSTM; every plain learner is out |
+  | Irish sovereign debt crisis | 8 models, including the LSTM |
+  | COVID-19 | All 14 (92 days cannot separate them) |
+  | 2022 | GARCH, HAR, LSTM, HAR-X, SVR-X |
+- **Expectations:** (i) and (ii) are met; (iii) is not.
+
 ## 6. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
 configurations score above 1.0 (worse than predicting the training mean) because the validation years differ from
@@ -334,6 +392,7 @@ py -3.13 11_connectedness.py      # exploratory E1: Diebold-Yilmaz spillovers vs
 py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED data from 1955 (seconds)
 py -3.13 13_ml_benchmarks.py     # exploratory E3: Random Forest and SVR with GridSearchCV (~2 min)
 py -3.13 14_hybrid_boosting.py   # exploratory E4: XGBoost, GARCH hybrids, VIX/leverage, combination (~10 min)
+py -3.13 15_treeshap_mcs.py      # exploratory E5-E6: TreeSHAP of the GARCH correction, Model Confidence Set (~15 min)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -367,6 +426,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Exploratory extensions (Amendment A1): spillovers vs SHAP (`11`), volatility paradox (`12`)
 - [x] Exploratory extension (Amendment A2): Random Forest and SVR benchmarks (`13`)
 - [x] Exploratory extension (Amendment A3): XGBoost, GARCH hybrids, VIX/leverage inputs, combination (`14`)
+- [x] Exploratory extensions (Amendment A4): TreeSHAP of the GARCH correction, Model Confidence Set (`15`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 

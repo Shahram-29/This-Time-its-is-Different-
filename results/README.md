@@ -25,6 +25,9 @@
 | `e4_tuning.csv` | `14_hybrid_boosting.py` | Exploratory E4: mean cross-validated MSE for every setting of XGBoost, the three GARCH hybrids and the three -X learners (tuned on 2003–05) |
 | `e4_forecasts.csv`, `e4_training_log.csv` | `14_hybrid_boosting.py` | Forecasts of all 14 compared models per test day; smearing factors, largest forecasts, HAR-X VIX and leverage coefficients per year |
 | `e4_losses.csv`, `e4_dm_tests.csv` | `14_hybrid_boosting.py` | QLIKE and MSE by window; DM-HLN tests (primary family Holm-adjusted: hybrids vs GARCH; secondary unadjusted) |
+| `e5_correction_shares.csv` | `15_treeshap_mcs.py` | Exploratory E5: channel shares of \|TreeSHAP\| of the GARCH hybrids' correction by window (4- and 3-channel versions, 95% block-bootstrap intervals; Random Forest and XGBoost hybrids) |
+| `e5_checks.csv` | `15_treeshap_mcs.py` | E5 expectations and agreement counts with the LSTM SHAP shares |
+| `e6_mcs.csv` | `15_treeshap_mcs.py` | Exploratory E6: Model Confidence Set p-values and 90% membership for 14 models — QLIKE and MSE on all days, sensitivity runs, windows |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.
