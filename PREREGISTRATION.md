@@ -144,3 +144,44 @@ has been produced; the code was checked on 2003–2006 data only.
 
 Disclosure: a post-hoc check with an ISEQ-only LSTM (inputs ret and r2, same settings) was run on 1 Oct 2026,
 before this amendment. It is not covered by A2 and, if used, will be reported as post-hoc.
+
+### A3 — 1 Oct 2026 — XGBoost, GARCH-hybrid models, extra inputs (VIX, leverage) and a forecast combination, added after the E3 results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+These analyses are **exploratory**. They were chosen after the RQ1–RQ4 results and the E3 results (Random Forest and
+SVR) had been seen, and after a literature check (Christensen et al., 2023; Branco, Rubesam & Zevallos, 2024;
+Audrino & Chassot, 2024; Kim & Won, 2018; Brini, 2026). They cannot confirm or rescue H1. Their specification is
+fixed here, before any of the models below has produced a forecast for a test year. The only data checked before
+this amendment was availability: the VIX is on Yahoo from 1999; the VSTOXX is not, so it is not used.
+
+**E4 — Can hybrid, boosted or better-informed models do better, and does the "unseen crisis" weakness remain?**
+
+Common rules (as in A2): walk-forward over test years 2007–2023; for test year Y, fitting days up to 31 Dec of Y−2,
+validation year Y−1 (the last 5 days of each part dropped) used only for the Duan smearing factor; SVR inputs
+standardised on the fitting days; each model tuned once on the first window (fitting days 2003–2005) with
+`GridSearchCV`, `TimeSeriesSplit(5 folds, gap 5)`, negative MSE, then frozen. Random Forest and SVR grids as in A2.
+XGBoost (`xgboost`, `objective='reg:squarederror'`, `subsample=0.8`, `colsample_bytree=0.8`, `random_state=100`):
+grid n_estimators {200, 500} × max_depth {2, 3, 5} × learning_rate {0.03, 0.1} × min_child_weight {1, 10}.
+
+1. **XGBoost** with the 9 A2 inputs.
+2. **GARCH hybrids (Random Forest, SVR, XGBoost).** Target = log(RV5) − log(GARCH 5-day forecast); inputs = the 9 A2
+   inputs + log GARCH forecast; forecast = GARCH × exp(prediction) × smearing factor. The GARCH forecasts come from
+   the main study's GARCH(1,1)-t refit for year Y (data to 31 Dec of Y−1). For test days they equal the main study's
+   GARCH forecasts; for training days the variance recursion uses only past returns, but the parameters are
+   estimated in-sample (stated as a limitation).
+3. **Extra inputs.** Log VIX close (Yahoo `^VIX`, joined backward on calendar date like the US and DAX series) and
+   the leverage terms of Corsi & Renò (2012): the negative part of the ISEQ return, min(r, 0), on the day and
+   averaged over 5 and 22 days (not logged).
+   - **HAR-X:** log HAR (daily, weekly, monthly) + log VIX + 3 leverage terms; OLS on all days before Y (last 5
+     dropped), smearing from in-sample residuals, exactly as the main HAR.
+   - **Random Forest-X, SVR-X, XGBoost-X:** the 9 A2 inputs + log VIX + 3 leverage terms (13 inputs).
+4. **Forecast combination:** the equal-weight average of the saved GARCH and LSTM forecasts (variance units).
+
+Evaluation: QLIKE (primary) and MSE, all test days and per window.
+- **Primary comparison:** each GARCH hybrid vs GARCH, all test days, QLIKE, DM-HLN two-sided, with a Holm
+  adjustment across the three tests. No direction is predicted.
+- Secondary (unadjusted, descriptive): every new model vs GARCH, HAR and the LSTM, all test days.
+- Expectations stated in advance: (i) XGBoost does not beat GARCH on all test days, and its GFC QLIKE is above
+  HAR's (0.676); (ii) each hybrid has a lower GFC QLIKE than the same learner without the hybrid target; (iii) HAR-X
+  has a lower all-days QLIKE than HAR (0.414); (iv) Random Forest-X, SVR-X and XGBoost-X still have a GFC QLIKE
+  above HAR's (0.676); (v) the GARCH–LSTM average has a lower all-days QLIKE than the LSTM (0.463).
