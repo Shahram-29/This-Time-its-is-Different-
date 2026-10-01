@@ -150,9 +150,9 @@ difference). GARCH remains the most accurate model overall; the LSTM remains the
 *Still to run (step 08; the first attempt was stopped at 58/85 FTSE models):* FTSE 100 instead of DAX (with the
 Brexit test, H2d) · 66-day look-back · extension to Sep 2023 – Dec 2025 (after the ISEQ composition break).
 
-## 5. Exploratory extensions (Amendments A1, A2)
+## 5. Exploratory extensions (Amendments A1–A3)
 *Chosen after the main results were known. Each specification was committed before the analysis was run
-(commits 9c89f79 and f1a0655, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
+(commits 9c89f79, f1a0655 and d179ad5, [`PREREGISTRATION.md`](PREREGISTRATION.md) → Amendments). These results cannot confirm or rescue
 any hypothesis.*
 
 **E1: econometric spillovers vs SHAP** (Diebold & Yilmaz, 2012). Method: VAR(4) on log 5-day realised variance
@@ -229,6 +229,54 @@ the LSTM. QLIKE, lower is better:
 
 ![Forecasts through the GFC](figures/ml_benchmarks_gfc.png)
 
+**E4: XGBoost, GARCH hybrids, extra inputs and a combination** (Amendment A3).
+- **XGBoost:** the 9 E3 inputs.
+- **GARCH hybrids:** the learner forecasts only the correction log(RV5) − log(GARCH forecast), so GARCH carries the
+  crisis scaling.
+- **Extra inputs:** log VIX and the leverage terms of Corsi & Renò (2012), used in HAR-X (OLS) and in the three
+  learners (the "-X" models).
+- **Combination:** the equal-weight average of the GARCH and LSTM forecasts.
+
+Rules and grids are as in E3. QLIKE by window, and MSE (× 10⁶) on all test days:
+
+| Model | All days | GFC | Irish debt | COVID-19 | 2022 | Calm | MSE, all days |
+|---|---|---|---|---|---|---|---|
+| GARCH | 0.380 | 0.401 | 0.374 | 0.700 | 0.290 | 0.351 | **2.63** |
+| HAR | 0.414 | 0.676 | 0.380 | 0.763 | 0.282 | 0.360 | 3.27 |
+| LSTM | 0.463 | 1.021 | 0.455 | 0.562 | 0.264 | 0.367 | 3.86 |
+| XGBoost | 0.450 | 0.925 | 0.436 | 0.530 | 0.300 | 0.369 | 4.02 |
+| Random Forest-hybrid | 0.376 | **0.361** | 0.385 | 0.639 | 0.280 | 0.351 | 2.78 |
+| SVR-hybrid | 0.376 | 0.372 | 0.386 | 0.591 | 0.284 | 0.351 | 2.95 |
+| XGBoost-hybrid | 0.394 | 0.455 | 0.401 | 0.618 | 0.290 | 0.357 | 2.96 |
+| HAR-X | **0.361** | 0.490 | **0.342** | 0.526 | **0.210** | **0.323** | 394.88 |
+| Random Forest-X | 0.427 | 0.892 | 0.401 | 0.538 | 0.250 | 0.351 | 3.77 |
+| SVR-X | 0.488 | 1.719 | 0.361 | 0.531 | 0.233 | 0.341 | 4.43 |
+| XGBoost-X | 0.402 | 0.743 | 0.411 | **0.501** | 0.260 | 0.342 | 3.74 |
+| GARCH + LSTM average | 0.380 | 0.469 | 0.376 | 0.588 | 0.243 | 0.346 | 2.93 |
+
+- **Primary test** (each hybrid vs GARCH, all days, QLIKE, Holm-adjusted): no difference.
+  - Random Forest-hybrid −0.003 (Holm p = 1.0); SVR-hybrid −0.004 (Holm p = 1.0); XGBoost-hybrid +0.015 (Holm
+    p = 0.36).
+- **The hybrid target removes the learners' crisis failure.**
+  - GFC QLIKE falls from 1.03 / 1.14 / 0.93 to 0.36 / 0.37 / 0.46.
+  - The 2008 peak forecasts rise from 21–27 to 228–270 (× 10⁻⁴), against an actual peak of 292.
+  - Overall the hybrids match GARCH but do not beat it.
+- **HAR-X has the lowest QLIKE overall** (vs HAR p = 0.002; vs GARCH p = 0.14, unadjusted). The VIX and leverage
+  coefficients are significant in every year.
+  - But in October 2008 its forecasts rose to as much as 34 times the realised peak (up to 9,955 × 10⁻⁴), because
+    the leverage terms enter a log model linearly.
+  - QLIKE punishes over-forecasts only mildly, so the loss barely shows it. MSE does: 4,134 in the GFC against 13
+    for GARCH.
+  - HAR-X starts 21 days later than HAR, because of the 22-day leverage window.
+- **XGBoost** behaves like the Random Forest: significantly worse than GARCH (p = 0.0005) and failing in the GFC.
+  With the VIX it is the best model in COVID-19 (0.501), but still fails in the GFC (0.743).
+- **The GARCH + LSTM average** equals GARCH overall (p = 0.96). It is better than GARCH in COVID-19, 2022 and calm
+  days, and worse in the GFC.
+- **All nine stated expectations are met.** Of the 14 models compared, only the three hybrids were tested with a
+  multiple-testing adjustment; the other p-values are unadjusted.
+
+![Hybrids through the GFC](figures/e4_hybrids_gfc.png)
+
 ## 6. Model details
 **LSTM tuning** (pre-registered grid, validation years 2006 and 2007, 2 seeds; lower is better). All
 configurations score above 1.0 (worse than predicting the training mean) because the validation years differ from
@@ -285,6 +333,7 @@ py -3.13 09_report_figures.py     # report figures from saved results
 py -3.13 11_connectedness.py      # exploratory E1: Diebold-Yilmaz spillovers vs SHAP (seconds)
 py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED data from 1955 (seconds)
 py -3.13 13_ml_benchmarks.py     # exploratory E3: Random Forest and SVR with GridSearchCV (~2 min)
+py -3.13 14_hybrid_boosting.py   # exploratory E4: XGBoost, GARCH hybrids, VIX/leverage, combination (~10 min)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -317,6 +366,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Project handbook (`docs/Project_Handbook.docx`)
 - [x] Exploratory extensions (Amendment A1): spillovers vs SHAP (`11`), volatility paradox (`12`)
 - [x] Exploratory extension (Amendment A2): Random Forest and SVR benchmarks (`13`)
+- [x] Exploratory extension (Amendment A3): XGBoost, GARCH hybrids, VIX/leverage inputs, combination (`14`)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 

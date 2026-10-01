@@ -22,6 +22,9 @@
 | `ml_forecasts.csv`, `ml_training_log.csv` | `13_ml_benchmarks.py` | Random Forest and SVR forecasts per test day; smearing factor and largest forecast vs actual per year |
 | `ml_losses.csv`, `ml_dm_tests.csv` | `13_ml_benchmarks.py` | QLIKE and MSE of all five models by window; DM-HLN tests of Random Forest and SVR vs GARCH, HAR, LSTM |
 | `ml_importance_by_channel.csv` | `13_ml_benchmarks.py` | Random Forest impurity importance summed by channel (domestic / US / euro), per refit year |
+| `e4_tuning.csv` | `14_hybrid_boosting.py` | Exploratory E4: mean cross-validated MSE for every setting of XGBoost, the three GARCH hybrids and the three -X learners (tuned on 2003–05) |
+| `e4_forecasts.csv`, `e4_training_log.csv` | `14_hybrid_boosting.py` | Forecasts of all 14 compared models per test day; smearing factors, largest forecasts, HAR-X VIX and leverage coefficients per year |
+| `e4_losses.csv`, `e4_dm_tests.csv` | `14_hybrid_boosting.py` | QLIKE and MSE by window; DM-HLN tests (primary family Holm-adjusted: hybrids vs GARCH; secondary unadjusted) |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.
