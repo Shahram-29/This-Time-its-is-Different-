@@ -185,3 +185,42 @@ Evaluation: QLIKE (primary) and MSE, all test days and per window.
   HAR's (0.676); (ii) each hybrid has a lower GFC QLIKE than the same learner without the hybrid target; (iii) HAR-X
   has a lower all-days QLIKE than HAR (0.414); (iv) Random Forest-X, SVR-X and XGBoost-X still have a GFC QLIKE
   above HAR's (0.676); (v) the GARCH–LSTM average has a lower all-days QLIKE than the LSTM (0.463).
+
+### A4 — 1 Oct 2026 — TreeSHAP of the GARCH correction and a Model Confidence Set, added after the E4 results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+These analyses are **exploratory**. They were chosen after the RQ1–RQ4 and E1–E4 results had been seen. They cannot
+confirm or rescue any hypothesis. Their specification is fixed here, before either analysis is run.
+
+**E5 — What does GARCH miss? TreeSHAP of the hybrid's correction** (Lundberg et al., 2020)
+- Model: the Random Forest GARCH hybrid of E4 (primary); the XGBoost GARCH hybrid as a check. For each test year
+  the model is refitted exactly as in E4 (settings from `e4_tuning.csv`); the refitted forecasts must equal the
+  saved E4 forecasts.
+- Explained quantity: the model's predicted correction log(RV5) − log(GARCH forecast), in logs, before smearing.
+- Method: `shap.TreeExplainer`, interventional, background = 200 fitting days of that year's model drawn at random
+  (`numpy.random.default_rng(1000 × year)`). Additivity is checked on every explained day.
+- Days: the same days as the LSTM SHAP analysis (every day in the GFC, Irish, COVID-19 and 2022 windows; every
+  10th calm day).
+- Channels: domestic (ISEQ daily, weekly, monthly), US (S&P 500, same three), euro (DAX, same three), and the GARCH
+  input (log GARCH forecast). Shares as in step 07: the channel's sum of |SHAP| over the window's days divided by the
+  total; 95% intervals from the same block bootstrap (blocks of 10 explained days, 1,000 draws, seed 0). Reported
+  with all four channels, and with the three information channels only (GARCH input left out) for comparison with
+  the LSTM.
+- Expectations stated in advance:
+  (i) GARCH uses only the ISEQ's own returns, so in each of the four crisis windows the foreign share (US + euro,
+  three-channel version) of the correction is larger than the LSTM's foreign share in that window;
+  (ii) applying the H2 rules to the correction ("rises" = interval above the calm share): the US share rises in the
+  GFC and in COVID-19, the euro share rises in the Irish sovereign debt crisis and in 2022 (count out of 4).
+- Also reported (descriptive, as in E1): agreement with the LSTM SHAP shares — same sign of change from calm (out
+  of 8) and same US-vs-euro ranking (out of 5).
+
+**E6 — Which models are statistically best? Model Confidence Set** (Hansen, Lunde & Nason, 2011)
+- Models: the 14 compared in E4 (GARCH, HAR, LSTM, Random Forest, SVR, XGBoost, the three GARCH hybrids, HAR-X, the
+  three -X learners, the GARCH–LSTM average), on all 4,230 test days.
+- Losses: daily QLIKE (primary) and MSE (secondary).
+- Method: `arch.bootstrap.MCS`, range statistic (`method='R'`), stationary bootstrap, average block length 10,
+  10,000 draws, seed 2026, size 0.10 (the 90% Model Confidence Set). MCS p-values are reported for every model.
+- Secondary (descriptive): the same QLIKE MCS in each window (calm, GFC, Irish sovereign debt crisis, COVID-19,
+  2022). Sensitivity for all days, QLIKE: block lengths 5 and 22; the max statistic.
+- Expectations stated in advance: (i) GARCH is in the 90% MCS on all days under QLIKE; (ii) the LSTM, Random Forest,
+  SVR and XGBoost (plain versions) are not; (iii) under MSE, HAR-X is not.
