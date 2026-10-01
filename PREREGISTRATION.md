@@ -113,3 +113,34 @@ Their specification is fixed here, before either analysis is run.
   markets, at least in Ireland and the US; COVID-19, an external shock, was not. One observation per market
   and crisis, so descriptive only.
 - Cross-check: annual volatility from FRED vs from the Yahoo daily closes, 2004–2023 (correlation).
+
+### A2 — 1 Oct 2026 — classical machine-learning benchmarks (Random Forest, SVR), added after the main results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+This analysis is **exploratory**. It was chosen after the RQ1–RQ4 results, and after diagnostic checks of the LSTM's
+losses, had been seen: most of the LSTM's disadvantage came from 2007–2010, and it reacted weakly to shocks larger
+than any in its training data. It cannot confirm or rescue H1 and will be reported with the other exploratory
+extensions. Its specification is fixed here, before any Random Forest or SVR forecast for a test year (2007–2023)
+has been produced; the code was checked on 2003–2006 data only.
+
+**E3 — Do the classical ML methods of the MSc module beat the LSTM, and do they share its weakness in unseen crises?**
+- Models (scikit-learn): `RandomForestRegressor(max_features='sqrt', random_state=100)` and `SVR`.
+- Inputs (9): logs of the daily, weekly (mean of 5 days) and monthly (mean of 22 days) squared returns of the ISEQ,
+  S&P 500 and DAX, from the same aligned dataset (floor 1e-8). Target: log forward 5-day realised variance.
+- Walk-forward exactly as for the LSTM. For test year Y (2007–2023): fitting days up to 31 Dec of Y−2, validation
+  year Y−1 (the last 5 days of each part dropped), used only for the Duan smearing factor; forecasts for every day
+  of Y. SVR inputs are standardised with the mean and standard deviation of that year's fitting days.
+- Tuning once, on the first window (fitting days 2003–2005), with `GridSearchCV`, `cv = TimeSeriesSplit(5 folds,
+  gap 5)`, scoring = negative MSE of the log target; the chosen settings are then frozen for all years.
+  - Random Forest grid: n_estimators {200, 500} × max_depth {3, 5, 10, None} × min_samples_leaf {1, 5, 20, 50}.
+  - SVR grid: kernel {linear, rbf} × C {0.1, 1, 10} × epsilon {0.05, 0.1, 0.3} × gamma {scale, 0.01}.
+- Evaluation as for RQ1: QLIKE (primary) and MSE on all test days and per window; DM-HLN tests (QLIKE) of the Random
+  Forest and the SVR against GARCH, HAR and the LSTM on all test days. Per-window comparisons are descriptive.
+- Expectations stated in advance: (i) the Random Forest has a higher QLIKE than the LSTM in the GFC window, because
+  a forest cannot forecast above the largest value in its training data; (ii) neither the Random Forest nor the SVR
+  has a lower all-days QLIKE than GARCH.
+- Also reported (descriptive): Random Forest impurity importance summed by channel (domestic / US / euro). It is
+  not a SHAP value, so it is set beside the SHAP channel shares, not tested against them.
+
+Disclosure: a post-hoc check with an ISEQ-only LSTM (inputs ret and r2, same settings) was run on 1 Oct 2026,
+before this amendment. It is not covered by A2 and, if used, will be reported as post-hoc.
