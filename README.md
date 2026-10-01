@@ -258,6 +258,8 @@ py -3.13 12_volatility_paradox.py # exploratory E2: volatility paradox, FRED dat
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
+**Google Colab, step by step:** [`colab/series/`](colab/series/README.md) explains the project in 27 small, simple notebooks (data cleaning → models → SHAP), written at the level of the MSc module notebooks.
+
 **Google Colab:** [`colab/This_Time_Is_Different_Colab.ipynb`](colab/This_Time_Is_Different_Colab.ipynb) runs the whole pipeline as one step-by-step notebook, laid out like the MSc machine-learning module notebooks (quick mode about 5–10 minutes; see [`colab/README.md`](colab/README.md)).
 
 ## Repository layout

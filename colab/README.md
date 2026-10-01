@@ -1,5 +1,8 @@
 # Google Colab version
 
+> **Start with [`series/`](series/README.md).** It holds the same project as 27 small, simple notebooks, at the level
+> of the class notebooks. The single notebook below is the compact all-in-one version.
+
 `This_Time_Is_Different_Colab.ipynb` is the whole project (scripts `code/01` … `code/12`) as one step-by-step
 notebook, laid out like the MSc machine-learning module notebooks: Data Preparation → Method #1 / Method #2 for each
 model → Evaluation → Prediction. It checks itself against the saved results in `results/`.
