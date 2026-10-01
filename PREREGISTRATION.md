@@ -224,3 +224,35 @@ confirm or rescue any hypothesis. Their specification is fixed here, before eith
   2022). Sensitivity for all days, QLIKE: block lengths 5 and 22; the max statistic.
 - Expectations stated in advance: (i) GARCH is in the 90% MCS on all days under QLIKE; (ii) the LSTM, Random Forest,
   SVR and XGBoost (plain versions) are not; (iii) under MSE, HAR-X is not.
+
+### A5 — 1 Oct 2026 — the Irish sovereign debt crisis with ISEQ-only models, added after the E1–E6 results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+This analysis is **exploratory and post-hoc**. It focuses on the domestic crisis and asks whether the foreign inputs
+matter there. Some results are already known: GARCH and HAR use only ISEQ data (Irish-window QLIKE 0.374 and 0.380),
+and a post-hoc ISEQ-only LSTM check was run on 1 Oct 2026 before A2 (Irish-window QLIKE 0.418). The specification
+below is fixed before any other ISEQ-only model is run.
+
+**E7 — Which model is best in the Irish sovereign debt crisis when only ISEQ data is used?**
+- Window: the pre-registered Irish sovereign debt crisis window (23 Apr 2010 – 26 Jul 2012, 574 test days).
+  Forecasts come from the usual walk-forward refits for the test years 2010, 2011 and 2012; each refit uses only data
+  before its test year. Data after the crisis (the files run to Dec 2025) cannot enter these forecasts without
+  look-ahead, so the sample end does not change them.
+- Inputs: ISEQ only. The 14 models of E4, each in an ISEQ-only version:
+  - GARCH and HAR (unchanged; saved forecasts);
+  - LSTM with inputs ret and r2 (settings 22/64/2 and seeds 1–5 as in the main study; the configuration was tuned with
+    six inputs and is not re-tuned);
+  - Random Forest, SVR and XGBoost with the 3 ISEQ HAR inputs;
+  - their GARCH hybrids (3 ISEQ HAR inputs + log GARCH forecast; target log(RV5) − log(GARCH));
+  - HAR-L and Random Forest-L, SVR-L, XGBoost-L: the ISEQ HAR inputs + the 3 Corsi–Renò leverage terms (the VIX is
+    left out, because it is a US series);
+  - the equal-weight average of GARCH and the ISEQ-only LSTM.
+- Rules as in A2–A3: fitting days to 31 Dec of Y−2, validation year Y−1 for smearing, SVR inputs standardised;
+  learners tuned once on the first window (fitting days 2003–2005) with `GridSearchCV`, `TimeSeriesSplit(5, gap 5)`,
+  negative MSE and the A2–A3 grids; HAR-L as HAR. LSTM as in the main study.
+- Evaluation, Irish window only: QLIKE (primary) and MSE. **Primary:** the 90% Model Confidence Set over the 14
+  ISEQ-only models, QLIKE, with the E6 settings. Secondary (descriptive): DM-HLN of each model against GARCH; each
+  ISEQ-only model against its three-market version from E3–E4.
+- Expectations stated in advance: (i) GARCH is in the 90% MCS; (ii) no ISEQ-only model has a significantly lower
+  QLIKE than GARCH (DM-HLN, 5%); (iii) each ISEQ-only plain learner (LSTM, Random Forest, SVR, XGBoost) has an
+  Irish-window QLIKE no higher than its three-market version.
