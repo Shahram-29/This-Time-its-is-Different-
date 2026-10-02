@@ -1,0 +1,77 @@
+model,phase,feature,mean_abs_shap
+RF-B,P1 Distress,rv_d,0.005323868137314933
+RF-B,P1 Distress,rv_w,0.03795181012932267
+RF-B,P1 Distress,rv_m,0.09417682748900023
+RF-B,P1 Distress,lev_d,0.015215838796104043
+RF-B,P1 Distress,lev_w,0.07597211782117679
+RF-B,P1 Distress,lev_m,0.14938229640116332
+RF-B,P1 Distress,bank_rv_d,0.010237368410073708
+RF-B,P1 Distress,bank_rv_w,0.03661491307698823
+RF-B,P1 Distress,bank_rv_m,0.11968332201542793
+RF-B,P2 Panic and guarantee,rv_d,0.007040540714193801
+RF-B,P2 Panic and guarantee,rv_w,0.15245707967811542
+RF-B,P2 Panic and guarantee,rv_m,0.13028822356027767
+RF-B,P2 Panic and guarantee,lev_d,0.013748009728250769
+RF-B,P2 Panic and guarantee,lev_w,0.08131267660254318
+RF-B,P2 Panic and guarantee,lev_m,0.2638416511616041
+RF-B,P2 Panic and guarantee,bank_rv_d,0.011694762430891906
+RF-B,P2 Panic and guarantee,bank_rv_w,0.09129965896537995
+RF-B,P2 Panic and guarantee,bank_rv_m,0.2603925882312173
+RF-B,P3 Relief,rv_d,0.005411419714616396
+RF-B,P3 Relief,rv_w,0.18876245350330903
+RF-B,P3 Relief,rv_m,0.12528654936161396
+RF-B,P3 Relief,lev_d,0.01144802891724098
+RF-B,P3 Relief,lev_w,0.04200343081060929
+RF-B,P3 Relief,lev_m,0.19993849531725444
+RF-B,P3 Relief,bank_rv_d,0.0117327381678085
+RF-B,P3 Relief,bank_rv_w,0.15442349163190058
+RF-B,P3 Relief,bank_rv_m,0.4732374478778921
+RF-B,P4 Sovereign crisis,rv_d,0.006936295237697802
+RF-B,P4 Sovereign crisis,rv_w,0.07737567442001686
+RF-B,P4 Sovereign crisis,rv_m,0.14098285713365766
+RF-B,P4 Sovereign crisis,lev_d,0.01184301205843142
+RF-B,P4 Sovereign crisis,lev_w,0.04356177797186579
+RF-B,P4 Sovereign crisis,lev_m,0.11735406611217883
+RF-B,P4 Sovereign crisis,bank_rv_d,0.015789931259198423
+RF-B,P4 Sovereign crisis,bank_rv_w,0.1901598580906459
+RF-B,P4 Sovereign crisis,bank_rv_m,0.44713640320003617
+RF-hybrid-B,P1 Distress,rv_d,0.011317780714246467
+RF-hybrid-B,P1 Distress,rv_w,0.08155148240640495
+RF-hybrid-B,P1 Distress,rv_m,0.09487395015100238
+RF-hybrid-B,P1 Distress,lev_d,0.014880582468749773
+RF-hybrid-B,P1 Distress,lev_w,0.016719191696332375
+RF-hybrid-B,P1 Distress,lev_m,0.03130607645720565
+RF-hybrid-B,P1 Distress,bank_rv_d,0.004664590814779329
+RF-hybrid-B,P1 Distress,bank_rv_w,0.00980953948237924
+RF-hybrid-B,P1 Distress,bank_rv_m,0.022333808143644118
+RF-hybrid-B,P1 Distress,log_garch,0.07690583689597036
+RF-hybrid-B,P2 Panic and guarantee,rv_d,0.00881036826139391
+RF-hybrid-B,P2 Panic and guarantee,rv_w,0.0925924836583301
+RF-hybrid-B,P2 Panic and guarantee,rv_m,0.11608434955274238
+RF-hybrid-B,P2 Panic and guarantee,lev_d,0.02791965242843192
+RF-hybrid-B,P2 Panic and guarantee,lev_w,0.022704468494604512
+RF-hybrid-B,P2 Panic and guarantee,lev_m,0.038273248528839066
+RF-hybrid-B,P2 Panic and guarantee,bank_rv_d,0.009407309806861223
+RF-hybrid-B,P2 Panic and guarantee,bank_rv_w,0.028904100531050657
+RF-hybrid-B,P2 Panic and guarantee,bank_rv_m,0.0395651159342839
+RF-hybrid-B,P2 Panic and guarantee,log_garch,0.07420020670596354
+RF-hybrid-B,P3 Relief,rv_d,0.009927348889967543
+RF-hybrid-B,P3 Relief,rv_w,0.07838329013822776
+RF-hybrid-B,P3 Relief,rv_m,0.09639766758541742
+RF-hybrid-B,P3 Relief,lev_d,0.035290973871354415
+RF-hybrid-B,P3 Relief,lev_w,0.02186356256480016
+RF-hybrid-B,P3 Relief,lev_m,0.01692298439914991
+RF-hybrid-B,P3 Relief,bank_rv_d,0.011661270908374073
+RF-hybrid-B,P3 Relief,bank_rv_w,0.07170608915879298
+RF-hybrid-B,P3 Relief,bank_rv_m,0.0696175290906731
+RF-hybrid-B,P3 Relief,log_garch,0.025283363779333965
+RF-hybrid-B,P4 Sovereign crisis,rv_d,0.009606905829784632
+RF-hybrid-B,P4 Sovereign crisis,rv_w,0.050339465691061853
+RF-hybrid-B,P4 Sovereign crisis,rv_m,0.036431636782544095
+RF-hybrid-B,P4 Sovereign crisis,lev_d,0.0311939828749551
+RF-hybrid-B,P4 Sovereign crisis,lev_w,0.025389488715235466
+RF-hybrid-B,P4 Sovereign crisis,lev_m,0.018105618338194598
+RF-hybrid-B,P4 Sovereign crisis,bank_rv_d,0.005467460007891923
+RF-hybrid-B,P4 Sovereign crisis,bank_rv_w,0.10504050660764644
+RF-hybrid-B,P4 Sovereign crisis,bank_rv_m,0.10718177137443935
+RF-hybrid-B,P4 Sovereign crisis,log_garch,0.01677422248771573

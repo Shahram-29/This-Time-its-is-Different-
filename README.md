@@ -7,6 +7,8 @@ MSc Business Analytics dissertation · Dublin Business School · 2026 · *work i
 
 ![Irish equity market 2003–2025 with crisis windows](figures/crisis_chart.png)
 
+> **New focus (2 Oct 2026, Amendment A6):** the dissertation now concentrates on the ISEQ and the Irish crisis of 2007–2012 in Kindleberger–Minsky phases, with Irish data only (ISEQ + Bank of Ireland and AIB). Design, features explained, results and next steps: **[IRISH_FOCUS.md](IRISH_FOCUS.md)**. The sections below document the original pre-registered study and the extensions E1–E7, which stay in the record.
+
 ## The study in brief
 | | |
 |---|---|
@@ -429,6 +431,8 @@ py -3.13 13_ml_benchmarks.py     # exploratory E3: Random Forest and SVR with Gr
 py -3.13 14_hybrid_boosting.py   # exploratory E4: XGBoost, GARCH hybrids, VIX/leverage, combination (~10 min)
 py -3.13 15_treeshap_mcs.py      # exploratory E5-E6: TreeSHAP of the GARCH correction, Model Confidence Set (~15 min)
 py -3.13 16_irish_iseq_only.py   # exploratory E7: all models with ISEQ data only, Irish sovereign debt crisis (~5 min)
+py -3.13 17_irish_focus.py       # Irish focus E8: ISEQ + Irish banks, 12 models, phases, Minsky test, TreeSHAP (~20 min)
+py -3.13 18_irish_focus_shap.py  # Irish focus E8: GradientShap of the LSTM with bank inputs (~18 min)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 
@@ -464,6 +468,7 @@ Raw and processed market data and trained models are not committed (Yahoo Financ
 - [x] Exploratory extension (Amendment A3): XGBoost, GARCH hybrids, VIX/leverage inputs, combination (`14`)
 - [x] Exploratory extensions (Amendment A4): TreeSHAP of the GARCH correction, Model Confidence Set (`15`)
 - [x] Exploratory extension (Amendment A5): ISEQ-only models in the Irish sovereign debt crisis (`16`)
+- [x] New focus (Amendment A6): ISEQ + Irish banks, Irish crisis 2007–2012 in phases (`17`, `18`; IRISH_FOCUS.md)
 - [ ] Pre-registration wording finalised in my own words
 - [ ] Dissertation chapters and submission
 

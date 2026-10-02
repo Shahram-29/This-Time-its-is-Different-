@@ -31,6 +31,12 @@
 | `e7_tuning.csv` | `16_irish_iseq_only.py` | Exploratory E7: cross-validated MSE for every setting of the nine ISEQ-only learners (tuned on 2003–05) |
 | `e7_forecasts.csv` | `16_irish_iseq_only.py` | Forecasts of the 14 ISEQ-only models for the test years 2010–2012 |
 | `e7_irish_results.csv` | `16_irish_iseq_only.py` | Irish-window QLIKE and MSE, DM-HLN vs GARCH, three-market QLIKE, MCS p-value and 90% membership per model |
+| `e8_tuning.csv` | `17_irish_focus.py` | Irish focus E8: cross-validated MSE for every setting of the 8 learners (Sets A and B; tuned on 2003–05) |
+| `e8_forecasts.csv` | `17_irish_focus.py` | Forecasts of the 12 models, refitted and frozen (estimated to 2006 only), every test day 2007–2012, with the phase |
+| `e8_results.csv` | `17_irish_focus.py` | Per phase and model: QLIKE, MSE, DM-HLN vs GARCH, MCS p-value and 90% membership, frozen QLIKE and frozen/refit ratio |
+| `e8_bank_tests.csv` | `17_irish_focus.py` | DM-HLN of each learner with bank inputs (Set B) vs ISEQ only (Set A), per phase |
+| `e8_treeshap_groups.csv`, `e8_treeshap_features.csv` | `17_irish_focus.py` | TreeSHAP of Random Forest-B and RF-hybrid-B on every crisis day: group shares with 95% intervals; mean \|SHAP\| per feature |
+| `e8_lstm_shap.csv`, `e8_lstm_shap_lags.csv` | `18_irish_focus_shap.py` | GradientShap of LSTM-B: ISEQ vs bank and direction vs size shares per phase (95% intervals, seed range); lag profile |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.
