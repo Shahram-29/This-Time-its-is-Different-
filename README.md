@@ -433,6 +433,7 @@ py -3.13 15_treeshap_mcs.py      # exploratory E5-E6: TreeSHAP of the GARCH corr
 py -3.13 16_irish_iseq_only.py   # exploratory E7: all models with ISEQ data only, Irish sovereign debt crisis (~5 min)
 py -3.13 17_irish_focus.py       # Irish focus E8: ISEQ + Irish banks, 12 models, phases, Minsky test, TreeSHAP (~20 min)
 py -3.13 18_irish_focus_shap.py  # Irish focus E8: GradientShap of the LSTM with bank inputs (~18 min)
+py -3.13 19_irish_data_profile.py # Irish dataset profile for docs/Irish_Dataset_Handbook (descriptive; seconds)
 ```
 Raw and processed market data and trained models are not committed (Yahoo Finance terms; size); the scripts rebuild them.
 

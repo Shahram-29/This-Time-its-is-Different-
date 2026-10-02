@@ -37,6 +37,7 @@
 | `e8_bank_tests.csv` | `17_irish_focus.py` | DM-HLN of each learner with bank inputs (Set B) vs ISEQ only (Set A), per phase |
 | `e8_treeshap_groups.csv`, `e8_treeshap_features.csv` | `17_irish_focus.py` | TreeSHAP of Random Forest-B and RF-hybrid-B on every crisis day: group shares with 95% intervals; mean \|SHAP\| per feature |
 | `e8_lstm_shap.csv`, `e8_lstm_shap_lags.csv` | `18_irish_focus_shap.py` | GradientShap of LSTM-B: ISEQ vs bank and direction vs size shares per phase (95% intervals, seed range); lag profile |
+| `irish_data_*.csv` (10 files) | `19_irish_data_profile.py` | Descriptive profile of the Irish dataset: coverage, quality by year, statistics and tests by phase, target, largest moves, feature ranges and correlations, ISEQ-bank lead-lag, stationarity, splits (see docs/Irish_Dataset_Handbook.md §13) |
 
 Variances are in decimal units (e.g. 0.0004 over 5 days). Annualised volatility = √(variance × 252 / 5).
 QLIKE = RV/F − ln(RV/F) − 1 (Patton, 2011); lower is better.

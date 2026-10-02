@@ -9,10 +9,11 @@ These are study and planning documents, not dissertation text.
 | **Research Plan** | see the design decisions, the verified facts behind them and the week-by-week plan. v1.4 (30 Sep 2026): results status (Section 12), Amendment A1 (5.14), corrections | [PDF](Dissertation_Research_Plan.pdf) | [docx](Dissertation_Research_Plan.docx) |
 | **Chapter 2 Blueprint** | plan Chapter 2 section by section; hypothesis derivation table; synthesis matrix; reference list. Updated 30 Sep 2026: new sources for the exploratory extensions; Gallagher & Twomey correction | [PDF](Chapter2_Literature_Review_Blueprint.pdf) | [docx](Chapter2_Literature_Review_Blueprint.docx) |
 | **Literature Handbook v2** | study the 61 core papers (cards with page pointers) and the 11 figures from your data (updated 1 Oct 2026: 10 cards and 2 figures for E3–E4) | [PDF](Literature_Handbook_Chapter2_v2.pdf) | [docx](Literature_Handbook_Chapter2_v2.docx) |
+| **Irish Dataset Handbook** (new, 2 Oct 2026) | understand the data of the Irish focus in depth: sources, ISEQ and bank background, construction step by step, quality checks, statistics by phase, stylised facts, features, limitations (also as [Markdown](Irish_Dataset_Handbook.md)) | [PDF](Irish_Dataset_Handbook.pdf) | [docx](Irish_Dataset_Handbook.docx) |
 | **Literature Search Guide** | see what the 28 Sep 2026 searches found, how each paper relates to your results, and what to read first. Updated 30 Sep 2026: exploratory results added; corrections applied | [PDF](Literature_Search_Guide_Strands_1-2.pdf) | [docx](Literature_Search_Guide_Strands_1-2.docx) |
 | archive / Literature Handbook v1 | superseded by v2 — kept for the record only | [PDF](archive/Literature_Handbook_Chapter2.pdf) | [docx](archive/Literature_Handbook_Chapter2.docx) |
 
-**Suggested reading order:** Project Handbook → Research Plan → Chapter 2 Blueprint → Literature Handbook v2 → Literature Search Guide.
+**Suggested reading order:** for the Irish focus start with `../IRISH_FOCUS.md` and the Irish Dataset Handbook; then Project Handbook → Research Plan → Chapter 2 Blueprint → Literature Handbook v2 → Literature Search Guide.
 
 **After editing a Word file**, re-create the PDFs (Word must be installed; takes about a minute). Open a PowerShell terminal in the
 Dissertation folder and run the command below. It works in a separate hidden copy of Word, so any document you have open stays as it is.

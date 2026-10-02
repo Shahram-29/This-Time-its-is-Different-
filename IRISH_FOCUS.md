@@ -14,6 +14,8 @@ Questions:
   falls matter, and how far back the models look.
 
 ## 2. Data — Irish only
+*In-depth version — sources, background, quality checks, statistics by phase, stylised facts: [docs/Irish_Dataset_Handbook.md](docs/Irish_Dataset_Handbook.md) (also PDF and Word).*
+
 | Series | Source | Use |
 |---|---|---|
 | ISEQ Overall, daily close, Oct 2002 – 2012 | Yahoo Finance `^ISEQ` (existing dataset) | target and ISEQ features |
