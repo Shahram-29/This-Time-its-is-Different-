@@ -317,3 +317,28 @@ vs Set A for each learner.
 (iv) Frozen boom-trained learners lose more than frozen GARCH: in P1 and P2 the frozen/refitted QLIKE ratio of each
 plain learner is above GARCH's.
 (v) The bank share of the attributions (LSTM and Random Forest, Set B) is highest in P2 among the four phases.
+
+### A7 — 3 Oct 2026 — Irish systemic and sovereign stress (ECB CISS), added after the E8 results were known
+> **DRAFT prepared with AI assistance — rewrite in your own words.**
+
+Exploratory (E9). Chosen after E8. Before this amendment only availability was checked, plus phase means and
+in-sample correlations of the two indices with the target (no model was fitted). Analysis in the folder
+`Desktop/Irish Dissertation` (script `20_ciss_stress.py`).
+
+**Data.** ECB Data Portal, Ireland, daily: new CISS (`CISS.D.IE.Z0Z.4F.EC.SS_CIN.IDX`) and new SovCISS
+(`CISS.D.IE.Z0Z.4F.EC.SOV_CIN.IDX`). Both enter lagged by one trading day (joined backward on ISEQ dates, then
+shifted), because a value dated t may be published after the ISEQ close. The CISS is not used as a model input (it
+contains Irish equity stress, i.e. ISEQ volatility again).
+
+1. **Sovereign stress as an input.** Set C = Set B (E8) + SovCISS and its 5-day mean. Random Forest, XGBoost, the
+   Random Forest GARCH hybrid and the LSTM (daily inputs of Set B + SovCISS), all with the E8 rules (tuned once on
+   2003–05; test years 2007–2012; LSTM seeds 1–5). Compared with the Set-B versions per phase (QLIKE, DM-HLN).
+2. **Data-dated stress regimes.** The E8 models and the Set-C models scored by CISS regime on the crisis-test days
+   2007–2012: low (CISS < 0.2), medium (0.2–0.5), high (≥ 0.5); 90% MCS per regime (E6 settings).
+3. **Explanations vs stress.** Daily TreeSHAP (interventional, 200 background days) of Random Forest-B and -C on
+   every crisis day; group shares by phase (ISEQ size, ISEQ leverage, banks, sovereign); Spearman correlation of the
+   daily bank share with CISS and with SovCISS.
+
+**Expectations.** (i) In P4, SovCISS lowers the QLIKE of at least 3 of the 4 learners. (ii) The sovereign share of
+Random Forest-C is highest in P4. (iii) GARCH is in the 90% MCS in the high-stress regime. (iv) The daily bank share of
+Random Forest-B correlates positively with CISS (Spearman > 0).
