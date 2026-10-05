@@ -14,3 +14,7 @@ xgboost==3.4.1
 shap==0.52.0
 python-docx
 pymupdf
+
+# Checks only (tests/ and code linting) - not needed to reproduce results
+pytest==9.1.1
+ruff==0.16.10

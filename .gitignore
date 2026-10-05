@@ -20,3 +20,7 @@ private/
 colab/DataSets_for_Drive/
 colab/outputs/
 colab/*.zip
+
+# Test and lint caches
+.pytest_cache/
+.ruff_cache/
